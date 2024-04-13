@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import Enum
+from typing import List
 
 from pydantic import BaseModel
 
@@ -30,4 +31,4 @@ class Variables(BaseModel):
     startAt: datetime
     endAt: datetime
     first: int
-    utility_filters: GasFilter | ElectricityFilter
+    utility_filters: List[GasFilter | ElectricityFilter]
