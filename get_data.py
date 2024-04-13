@@ -5,7 +5,7 @@ from pathlib import Path
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 
-from src.models import GasFilter, ReadingFrequencyType, UtilityFilter, Variables
+from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
 env_file_path = Path("env.json")
@@ -28,11 +28,7 @@ variables = Variables(
     end_at=datetime(year=2024, month=1, day=12),
     first=48,
     utility_filters=[
-        GasFilter(
-            gas_filters=UtilityFilter(
-                reading_frequency_type=ReadingFrequencyType.HOUR_INTERVAL
-            )
-        )
+        GasFilter(reading_frequency_type=ReadingFrequencyType.HOUR_INTERVAL)
     ],
 )
 

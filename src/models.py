@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import List
 
-from pydantic import BaseModel, ConfigDict, field_serializer
+from pydantic import BaseModel, ConfigDict, Field, computed_field, field_serializer
 from pydantic.alias_generators import to_camel
 
 
@@ -28,11 +28,21 @@ class UtilityFilter(EdfModel):
 
 
 class GasFilter(EdfModel):
-    gas_filters: UtilityFilter
+    reading_frequency_type: ReadingFrequencyType = Field(..., exclude=True)
+
+    @computed_field
+    @property
+    def gas_filters(self) -> UtilityFilter:
+        return UtilityFilter(reading_frequency_type=self.reading_frequency_type)
 
 
 class ElectricityFilter(EdfModel):
-    electricity_filters: UtilityFilter
+    reading_frequency_type: ReadingFrequencyType = Field(..., exclude=True)
+
+    @computed_field
+    @property
+    def electricity_filters(self) -> UtilityFilter:
+        return UtilityFilter(reading_frequency_type=self.reading_frequency_type)
 
 
 class Variables(EdfModel):
