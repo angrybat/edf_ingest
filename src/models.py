@@ -2,7 +2,14 @@ from datetime import datetime
 from enum import Enum
 from typing import List
 
-from pydantic import BaseModel, ConfigDict, Field, computed_field, field_serializer
+from pydantic import (
+    AliasPath,
+    BaseModel,
+    ConfigDict,
+    Field,
+    computed_field,
+    field_serializer,
+)
 from pydantic.alias_generators import to_camel
 
 
@@ -77,3 +84,50 @@ class Variables(EdfModel):
     )
     def get_datetime_str(self, datetime: datetime) -> str:
         return datetime.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
+class CostType(Enum):
+    STANDING_CHARGE_COST = "STANDING_CHARGE_COST"
+    CONSUMPTION_COST = "CONSUMPTION_COST"
+
+
+class Cost(EdfModel):
+    amount: float = Field(
+        ..., validation_alias=AliasPath("costInclTax", "estimatedAmount")
+    )
+    currency: str = Field(
+        ..., validation_alias=AliasPath("costInclTax", "costCurrency")
+    )
+    type: CostType
+
+
+class ReadingType(Enum):
+    GAS = "GasFiltersOutput"
+    ELECTRICITY = "ElectricityFiltersOutput"
+
+
+class Reading(EdfModel):
+    start_at: datetime = Field(..., validation_alias=AliasPath("node", "startAt"))
+    end_at: datetime = Field(..., validation_alias=AliasPath("node", "endAt"))
+    unit: str = Field(..., validation_alias=AliasPath("node", "unit"))
+    value: float = Field(..., validation_alias=AliasPath("node", "value"))
+    costs: List[Cost] = Field(
+        ..., validation_alias=AliasPath("node", "metaData", "statistics")
+    )
+    type: ReadingType = Field(
+        ...,
+        validation_alias=AliasPath("node", "metaData", "utilityFilters", "__typename"),
+    )
+
+
+class PaginatedReadings(EdfModel):
+    readings: List[Reading] = Field(
+        ...,
+        validation_alias=AliasPath("account", "properties", 0, "measurements", "edges"),
+    )
+    has_next_page: bool = Field(
+        ...,
+        validation_alias=AliasPath(
+            "account", "properties", 0, "measurements", "pageInfo", "hasNextPage"
+        ),
+    )
