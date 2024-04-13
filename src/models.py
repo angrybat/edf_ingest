@@ -15,6 +15,15 @@ class ReadingFrequencyType(Enum):
     YEAR_INTERVAL = "YEAR_INTERVAL"
 
 
+class Headers(BaseModel):
+    jwt: str = Field(..., exclude=True)
+
+    @computed_field(alias="Authorization")
+    @property
+    def authorization(self) -> str:
+        return f"JWT {self.jwt}"
+
+
 class EdfModel(BaseModel):
     model_config = ConfigDict(
         alias_generator=to_camel, populate_by_name=True, use_enum_values=True
