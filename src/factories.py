@@ -1,8 +1,9 @@
 from json import load
 from pathlib import Path
 
-from gql import Client
+from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
+from graphql import DocumentNode
 
 from src.models import Headers, Settings
 
@@ -19,6 +20,6 @@ def get_authorized_client(jwt: str, url: str) -> Client:
     return Client(transport=transport, fetch_schema_from_transport=True)
 
 
-def get_query(file_path: Path) -> str:
+def get_query(file_path: Path) -> DocumentNode:
     with open(file_path) as file:
-        return file.read()
+        return gql(file.read())
