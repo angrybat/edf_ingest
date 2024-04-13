@@ -26,12 +26,13 @@ class TestGetAuthorizedClient:
     def test_url_is_set(self) -> None:
         client = get_authorized_client(url=URL, jwt=JWT)
 
-        assert client.transport.url == URL
+        assert client.transport.url == URL  # type: ignore
 
     def test_headers_is_set(self) -> None:
         client = get_authorized_client(url=URL, jwt=JWT)
 
-        assert client.transport.headers == Headers(jwt=JWT).model_dump(by_alias=True)
+        headers_dict = Headers(jwt=JWT).model_dump(by_alias=True)
+        assert client.transport.headers == headers_dict  # type: ignore
 
 
 class TestGetQuery:
