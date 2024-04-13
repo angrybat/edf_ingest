@@ -1,10 +1,17 @@
-from datetime import datetime
+from datetime import UTC, datetime, timezone
+
+from pydantic_core import TzInfo
 
 from src.models import (
+    Cost,
+    CostType,
     ElectricityFilter,
     GasFilter,
     Headers,
+    PaginatedReadings,
+    Reading,
     ReadingFrequencyType,
+    ReadingType,
     Variables,
 )
 from tests.unit.constants import ACCOUNT_NUMBER, JWT
@@ -68,3 +75,138 @@ def test_variables_maps_to_dict() -> None:
         ],
     }
     assert expected == actual
+
+
+def test_paginated_readings_maps_from_dict() -> None:
+    dict = {
+        "account": {
+            "properties": [
+                {
+                    "measurements": {
+                        "edges": [
+                            {
+                                "node": {
+                                    "startAt": "2024-01-11T00:00:00+00:00",
+                                    "endAt": "2024-01-11T01:00:00+00:00",
+                                    "unit": "kwh",
+                                    "value": "33.333333333333333333333333333333",
+                                    "metaData": {
+                                        "statistics": [
+                                            {
+                                                "type": "STANDING_CHARGE_COST",
+                                                "costInclTax": {
+                                                    "estimatedAmount": "10.50",
+                                                    "costCurrency": "GBP",
+                                                },
+                                            },
+                                            {
+                                                "type": "CONSUMPTION_COST",
+                                                "costInclTax": {
+                                                    "estimatedAmount": "69.49",
+                                                    "costCurrency": "GBP",
+                                                },
+                                            },
+                                        ],
+                                        "utilityFilters": {
+                                            "__typename": "GasFiltersOutput"
+                                        },
+                                    },
+                                }
+                            },
+                            {
+                                "node": {
+                                    "startAt": "2024-01-11T23:00:00+00:00",
+                                    "endAt": "2024-01-12T00:00:00+00:00",
+                                    "unit": "kwh",
+                                    "value": "76.432113454",
+                                    "metaData": {
+                                        "statistics": [
+                                            {
+                                                "type": "STANDING_CHARGE_COST",
+                                                "costInclTax": {
+                                                    "estimatedAmount": "40.53",
+                                                    "costCurrency": "GBP",
+                                                },
+                                            },
+                                            {
+                                                "type": "CONSUMPTION_COST",
+                                                "costInclTax": {
+                                                    "estimatedAmount": "209.54",
+                                                    "costCurrency": "GBP",
+                                                },
+                                            },
+                                        ],
+                                        "utilityFilters": {
+                                            "__typename": "ElectricityFiltersOutput"
+                                        },
+                                    },
+                                }
+                            },
+                        ],
+                        "pageInfo": {"hasNextPage": False},
+                    },
+                }
+            ]
+        }
+    }
+
+    paginated_readings = PaginatedReadings(**dict)
+
+    expected = PaginatedReadings(
+        readings=[
+            Reading(
+                start_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=11,
+                    tzinfo=timezone.utc,
+                ),
+                end_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=11,
+                    hour=1,
+                    tzinfo=timezone.utc,
+                ),
+                unit="kwh",
+                value=33.333333333333333333333333333333,
+                costs=[
+                    Cost(
+                        amount=10.50, currency="GBP", type=CostType.STANDING_CHARGE_COST
+                    ),
+                    Cost(amount=69.49, currency="GBP", type=CostType.CONSUMPTION_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=11,
+                    hour=23,
+                    tzinfo=timezone.utc,
+                ),
+                end_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=12,
+                    tzinfo=timezone.utc,
+                ),
+                unit="kwh",
+                value=76.432113454,
+                costs=[
+                    Cost(
+                        amount=40.53, currency="GBP", type=CostType.STANDING_CHARGE_COST
+                    ),
+                    Cost(
+                        amount=209.54,
+                        currency="GBP",
+                        type=CostType.CONSUMPTION_COST,
+                    ),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+        ],
+        has_next_page=False,
+    )
+    assert expected == paginated_readings
