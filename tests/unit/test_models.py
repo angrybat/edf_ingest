@@ -7,27 +7,25 @@ from src.models import (
     ReadingFrequencyType,
     Variables,
 )
+from tests.unit.constants import ACCOUNT_NUMBER, JWT
 
 
 def test_headers_maps_to_dict() -> None:
-    jwt = "ThisIsAJwt"
-
-    headers = Headers(jwt=jwt)
+    headers = Headers(jwt=JWT)
 
     actual = headers.model_dump(by_alias=True)
 
-    expected = {"Authorization": f"JWT {jwt}"}
+    expected = {"Authorization": f"JWT {JWT}"}
 
     assert expected == actual
 
 
 def test_variables_maps_to_dict() -> None:
-    account_number = "account_number"
     first = 10
     gas_filter_frequency = ReadingFrequencyType.MONTH_INTERVAL
     electricity_filter_frequency = ReadingFrequencyType.DAY_INTERVAL
     variables = Variables(
-        account_number=account_number,
+        account_number=ACCOUNT_NUMBER,
         start_at=datetime(
             year=2024,
             month=4,
@@ -56,7 +54,7 @@ def test_variables_maps_to_dict() -> None:
     actual = variables.model_dump(by_alias=True)
 
     expected = {
-        "accountNumber": account_number,
+        "accountNumber": ACCOUNT_NUMBER,
         "startAt": "2024-04-13T12:32:45.123Z",
         "endAt": "2025-03-23T11:26:49.456Z",
         "first": first,
