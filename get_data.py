@@ -1,4 +1,5 @@
 from datetime import datetime
+from json import dump
 from pathlib import Path
 
 from gql import gql
@@ -29,5 +30,6 @@ query = gql(get_query(Path("src/get_measurements.graphql")))
 # get data
 result = client.execute(query, variable_values=variables.model_dump(by_alias=True))
 
-# print data
-print(result)
+# output to file
+with open("output.json", "w") as output_file:
+    dump(result, output_file)
