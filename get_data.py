@@ -2,24 +2,18 @@ from datetime import datetime
 from json import load
 from pathlib import Path
 
-from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport
+from gql import gql
 
-from src.models import GasFilter, Headers, ReadingFrequencyType, Variables
+from src.clients import get_authorized_client
+from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
 env_file_path = Path("env.json")
 with open(env_file_path) as env_file:
     settings = load(env_file)
 
-# Define variables from the env file
-URL = settings["url"]
-JWT = settings["jwt"]
-headers = Headers(jwt=JWT)
-
-# Create Authenticated Client
-transport = AIOHTTPTransport(url=URL, headers=headers.model_dump(by_alias=True))
-client = Client(transport=transport, fetch_schema_from_transport=True)
+# Create authorized client
+client = get_authorized_client(jwt=settings["jwt"], url=settings["url"])
 
 # Define variables and query
 variables = Variables(
