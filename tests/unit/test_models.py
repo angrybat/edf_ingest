@@ -9,6 +9,18 @@ from src.models import (
 )
 
 
+def test_headers_maps_to_dict() -> None:
+    jwt = "ThisIsAJwt"
+
+    headers = Headers(jwt=jwt)
+
+    actual = headers.model_dump(by_alias=True)
+
+    expected = {"Authorization": f"JWT {jwt}"}
+
+    assert expected == actual
+
+
 def test_variables_maps_to_dict() -> None:
     account_number = "account_number"
     first = 10
@@ -57,16 +69,4 @@ def test_variables_maps_to_dict() -> None:
             },
         ],
     }
-    assert expected == actual
-
-
-def test_headers_maps_to_dict() -> None:
-    jwt = "ThisIsAJwt"
-
-    headers = Headers(jwt=jwt)
-
-    actual = headers.model_dump(by_alias=True)
-
-    expected = {"Authorization": f"JWT {jwt}"}
-
     assert expected == actual
