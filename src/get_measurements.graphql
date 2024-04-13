@@ -15,38 +15,30 @@ query getMeasurements(
       ) {
         edges {
           node {
-            value
             ... on IntervalMeasurementType {
               startAt
               endAt
+              unit
               value
               metaData {
                 statistics {
                   type
                   costInclTax {
                     estimatedAmount
-                    __typename
+                    costCurrency
                   }
+                }
+                utilityFilters {
                   __typename
                 }
-                __typename
               }
-              __typename
             }
-            metaData {
-              utilityFilters {
-                __typename
-              }
-              __typename
-            }
-            __typename
           }
-          __typename
         }
-        __typename
+        pageInfo {
+          hasNextPage
+        }
       }
-      __typename
     }
-    __typename
   }
 }
