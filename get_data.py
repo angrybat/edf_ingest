@@ -1,23 +1,22 @@
 from datetime import datetime
-from json import load
 from pathlib import Path
 
 from gql import gql
 
 from src.clients import get_authorized_client
+from src.factories import get_settings
 from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
 env_file_path = Path("env.json")
-with open(env_file_path) as env_file:
-    settings = load(env_file)
+settings = get_settings(env_file_path)
 
 # Create authorized client
-client = get_authorized_client(jwt=settings["jwt"], url=settings["url"])
+client = get_authorized_client(jwt=settings.jwt, url=settings.url)
 
 # Define variables and query
 variables = Variables(
-    account_number=settings["account_number"],
+    account_number=settings.account_number,
     start_at=datetime(year=2024, month=1, day=11),
     end_at=datetime(year=2024, month=1, day=12),
     first=48,
