@@ -15,6 +15,12 @@ class ReadingFrequencyType(Enum):
     YEAR_INTERVAL = "YEAR_INTERVAL"
 
 
+class Settings(BaseModel):
+    account_number: str
+    jwt: str
+    url: str
+
+
 class Headers(BaseModel):
     jwt: str = Field(..., exclude=True)
 
