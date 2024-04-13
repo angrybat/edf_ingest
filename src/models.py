@@ -15,8 +15,11 @@ class ReadingFrequencyType(Enum):
     YEAR_INTERVAL = "YEAR_INTERVAL"
 
 
-class UtilityFilter(BaseModel):
+class EdfModel(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
+
+class UtilityFilter(EdfModel):
     reading_frequency_type: ReadingFrequencyType
 
     @field_serializer("reading_frequency_type", return_type=str)
@@ -24,18 +27,15 @@ class UtilityFilter(BaseModel):
         return reading_frequency_type.value
 
 
-class GasFilter(BaseModel):
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+class GasFilter(EdfModel):
     gas_filters: UtilityFilter
 
 
-class ElectricityFilter(BaseModel):
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+class ElectricityFilter(EdfModel):
     electricity_filters: UtilityFilter
 
 
-class Variables(BaseModel):
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+class Variables(EdfModel):
     account_number: str
     start_at: datetime
     end_at: datetime
