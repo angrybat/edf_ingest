@@ -51,14 +51,15 @@
 				"python.defaultInterpreterPath": "/usr/local/bin/python",
 				"python.testing.pytestEnabled": true,
 				"python.testing.unittestEnabled": false,
-				"python.testing.cwd": "/workspaces/s3_file_ingester",
+				"python.testing.cwd": "/workspaces/edf",
 				"python.testing.pytestPath": "/usr/local/py-utils/bin/pytest",
 				"python.testing.pytestArgs": [
 					"tests"
 				],
 				"cSpell.words": [
 					"aiohttp",
-					"AIOHTTP"
+					"AIOHTTP",
+					"pydantic"
 				],
 				"cSpell.ignorePaths": [
 					"env.json"

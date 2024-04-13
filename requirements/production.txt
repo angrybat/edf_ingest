@@ -1,1 +1,2 @@
 gql[all]==3.5.0
+pydantic==2.7.0
