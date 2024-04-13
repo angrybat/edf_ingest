@@ -16,15 +16,13 @@ class ReadingFrequencyType(Enum):
 
 
 class EdfModel(BaseModel):
-    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+    model_config = ConfigDict(
+        alias_generator=to_camel, populate_by_name=True, use_enum_values=True
+    )
 
 
 class UtilityFilter(EdfModel):
     reading_frequency_type: ReadingFrequencyType
-
-    @field_serializer("reading_frequency_type", return_type=str)
-    def get_enum_string(self, reading_frequency_type: ReadingFrequencyType) -> str:
-        return reading_frequency_type.value
 
 
 class GasFilter(EdfModel):
