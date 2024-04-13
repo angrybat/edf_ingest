@@ -2,7 +2,7 @@ from json import dump
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from src.factories import get_authorized_client, get_settings
+from src.factories import get_authorized_client, get_query, get_settings
 from src.models import Headers, Settings
 from tests.unit.constants import ACCOUNT_NUMBER, JWT, URL
 
@@ -32,3 +32,16 @@ class TestGetAuthorizedClient:
         client = get_authorized_client(url=URL, jwt=JWT)
 
         assert client.transport.headers == Headers(jwt=JWT).model_dump(by_alias=True)
+
+
+class TestGetQuery:
+    def test_string_is_returned(self) -> None:
+        query_string = "this is a query"
+        with TemporaryDirectory() as temp_dir:
+            query_file_path = Path(temp_dir) / "query.graphql"
+            with open(query_file_path, "w") as query_file:
+                query_file.write(query_string)
+
+            query = get_query(query_file_path)
+
+        assert query_string == query
