@@ -28,7 +28,7 @@ class ElectricityFilter(BaseModel):
 
 class Variables(BaseModel):
     account_number: str
-    startAt: datetime
-    endAt: datetime
+    start_at: datetime
+    end_at: datetime
     first: int
     utility_filters: List[GasFilter | ElectricityFilter]
