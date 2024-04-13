@@ -1,6 +1,12 @@
 from datetime import datetime
 
-from src.models import ElectricityFilter, GasFilter, ReadingFrequencyType, Variables
+from src.models import (
+    ElectricityFilter,
+    GasFilter,
+    Headers,
+    ReadingFrequencyType,
+    Variables,
+)
 
 
 def test_variables_maps_to_dict() -> None:
@@ -51,4 +57,16 @@ def test_variables_maps_to_dict() -> None:
             },
         ],
     }
+    assert expected == actual
+
+
+def test_headers_maps_to_dict() -> None:
+    jwt = "ThisIsAJwt"
+
+    headers = Headers(jwt=jwt)
+
+    actual = headers.model_dump(by_alias=True)
+
+    expected = {"Authorization": f"JWT {jwt}"}
+
     assert expected == actual
