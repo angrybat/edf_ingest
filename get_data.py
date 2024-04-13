@@ -5,7 +5,7 @@ from pathlib import Path
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 
-from src.models import GasFilter, ReadingFrequencyType, Variables
+from src.models import GasFilter, Headers, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
 env_file_path = Path("env.json")
@@ -15,10 +15,10 @@ with open(env_file_path) as env_file:
 # Define variables from the env file
 URL = settings["url"]
 JWT = settings["jwt"]
-HEADERS = {"Authorization": f"JWT {JWT}"}
+headers = Headers(jwt=JWT)
 
 # Create Authenticated Client
-transport = AIOHTTPTransport(url=URL, headers=HEADERS)
+transport = AIOHTTPTransport(url=URL, headers=headers.model_dump(by_alias=True))
 client = Client(transport=transport, fetch_schema_from_transport=True)
 
 # Define variables and query
