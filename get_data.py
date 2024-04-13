@@ -2,13 +2,12 @@ from datetime import datetime
 from json import dump
 from pathlib import Path
 
-from gql import gql
-
 from src.factories import get_authorized_client, get_query, get_settings
 from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
 env_file_path = Path("env.json")
+query_file_path = Path("src/get_measurements.graphql")
 settings = get_settings(env_file_path)
 
 # Create authorized client
@@ -25,7 +24,7 @@ variables = Variables(
     ],
 )
 
-query = gql(get_query(Path("src/get_measurements.graphql")))
+query = get_query(query_file_path)
 
 # get data
 result = client.execute(query, variable_values=variables.model_dump(by_alias=True))
