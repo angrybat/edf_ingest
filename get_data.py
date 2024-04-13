@@ -3,7 +3,7 @@ from pathlib import Path
 
 from gql import gql
 
-from src.factories import get_authorized_client, get_settings
+from src.factories import get_authorized_client, get_query, get_settings
 from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
@@ -24,9 +24,7 @@ variables = Variables(
     ],
 )
 
-query = gql(
-    "query getMeasurements($accountNumber: String!, $first: Int!, $utilityFilters: [UtilityFiltersInput!], $startAt: DateTime, $endAt: DateTime) {\n  account(accountNumber: $accountNumber) {\n    properties {\n      measurements(\n        first: $first\n        utilityFilters: $utilityFilters\n        startAt: $startAt\n        endAt: $endAt\n      ) {\n        edges {\n          node {\n            value\n            ... on IntervalMeasurementType {\n              startAt\n              endAt\n              value\n              metaData {\n                statistics {\n                  type\n                  costInclTax {\n                    estimatedAmount\n                    __typename\n                  }\n                  __typename\n                }\n                __typename\n              }\n              __typename\n            }\n            metaData {\n              utilityFilters {\n                __typename\n              }\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}"  # noqa: E501
-)
+query = gql(get_query(Path("src/get_measurements.graphql")))
 
 # get data
 result = client.execute(query, variable_values=variables.model_dump(by_alias=True))
