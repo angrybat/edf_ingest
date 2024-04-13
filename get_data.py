@@ -3,8 +3,7 @@ from pathlib import Path
 
 from gql import gql
 
-from src.clients import get_authorized_client
-from src.factories import get_settings
+from src.factories import get_authorized_client, get_settings
 from src.models import GasFilter, ReadingFrequencyType, Variables
 
 # get sensitive data from env file
