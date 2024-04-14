@@ -102,3 +102,21 @@ class TestGetUtilityFilters:
             GasFilter(reading_frequency_type=GAS_READING_FREQUENCY),
         ]
         assert expected == utility_filters
+
+    def test_returns_electricity_filters(self) -> None:
+        settings = Settings(
+            account_number=ACCOUNT_NUMBER,
+            jwt=JWT,
+            url=URL,
+            start_at=START_AT,
+            end_at=END_AT,
+            first=FIRST,
+            electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
+        )
+
+        utility_filters = get_utility_filters(settings)
+
+        expected = [
+            ElectricityFilter(reading_frequency_type=ELECTRICITY_READING_FREQUENCY),
+        ]
+        assert expected == utility_filters
