@@ -2,6 +2,7 @@ from json import dump
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+import pytest
 from gql import gql
 
 from src.factories import (
@@ -103,7 +104,7 @@ class TestGetUtilityFilters:
         ]
         assert expected == utility_filters
 
-    def test_returns_electricity_filters(self) -> None:
+    def test_returns_electricity_filter(self) -> None:
         settings = Settings(
             account_number=ACCOUNT_NUMBER,
             jwt=JWT,
@@ -120,3 +121,34 @@ class TestGetUtilityFilters:
             ElectricityFilter(reading_frequency_type=ELECTRICITY_READING_FREQUENCY),
         ]
         assert expected == utility_filters
+
+    def test_returns_gas_filter(self) -> None:
+        settings = Settings(
+            account_number=ACCOUNT_NUMBER,
+            jwt=JWT,
+            url=URL,
+            start_at=START_AT,
+            end_at=END_AT,
+            first=FIRST,
+            gas_reading_frequency=GAS_READING_FREQUENCY,
+        )
+
+        utility_filters = get_utility_filters(settings)
+
+        expected = [
+            GasFilter(reading_frequency_type=GAS_READING_FREQUENCY),
+        ]
+        assert expected == utility_filters
+
+    def test_throws_exception(self) -> None:
+        settings = Settings(
+            account_number=ACCOUNT_NUMBER,
+            jwt=JWT,
+            url=URL,
+            start_at=START_AT,
+            end_at=END_AT,
+            first=FIRST,
+        )
+
+        with pytest.raises(ValueError):
+            _ = get_utility_filters(settings)
