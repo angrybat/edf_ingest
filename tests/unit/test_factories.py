@@ -58,7 +58,7 @@ class TestGetSettings:
             first=FIRST,
             gas_reading_frequency=GAS_READING_FREQUENCY,
             electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
-            query_file_path=GET_READINGS_QUERY_FILE_PATH,
+            get_readings_query_file_path=GET_READINGS_QUERY_FILE_PATH,
         )
         assert expected == settings
 

@@ -45,7 +45,7 @@ class Settings(BaseModel):
     first: int
     gas_reading_frequency: ReadingFrequencyType | None = None
     electricity_reading_frequency: ReadingFrequencyType | None = None
-    query_file_path: Path = GET_READINGS_QUERY_FILE_PATH
+    get_readings_query_file_path: Path = GET_READINGS_QUERY_FILE_PATH
     account_number_query_path: Path = ACCOUNT_NUMBER_QUERY_FILE_PATH
 
 

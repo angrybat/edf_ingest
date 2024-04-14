@@ -10,7 +10,7 @@ class ReadingsCursor:
         self.variables = get_variables(settings, account_number)
         self.url = settings.url
         self.jwt = settings.jwt
-        self.query_file_path = settings.query_file_path
+        self.query_file_path = settings.get_readings_query_file_path
         self._paginated_readings: PaginatedReadings | None = None
 
     def next_page(self) -> bool:
