@@ -9,7 +9,10 @@ from src.models import PaginatedReadings
 def test_api_call_does_not_throw_error() -> None:
     env_file_path = Path("env.json")
     settings = get_settings(env_file_path)
-    variables = get_variables(settings)
+    account_number = get_account_number(
+        settings.url, settings.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
+    )
+    variables = get_variables(settings, account_number)
     paginated_readings = get_paginated_readings(
         settings.url, settings.jwt, QUERY_FILE_PATH, variables
     )
