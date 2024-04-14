@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import pytest
 from gql import gql
 
-from src.constants import DATETIME_FORMAT, QUERY_FILE_PATH
+from src.constants import DATETIME_FORMAT, GET_READINGS_QUERY_FILE_PATH
 from src.factories import (
     get_authorized_client,
     get_query,
@@ -38,7 +38,7 @@ class TestGetSettings:
                 "first": FIRST,
                 "gas_reading_frequency": GAS_READING_FREQUENCY.value,
                 "electricity_reading_frequency": ELECTRICITY_READING_FREQUENCY.value,
-                "query_file_path": str(QUERY_FILE_PATH),
+                "query_file_path": str(GET_READINGS_QUERY_FILE_PATH),
             }
             with open(env_file_path, "w") as env_file:
                 dump(settings_file_contents, env_file)
@@ -53,7 +53,7 @@ class TestGetSettings:
             first=FIRST,
             gas_reading_frequency=GAS_READING_FREQUENCY,
             electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
-            query_file_path=QUERY_FILE_PATH,
+            query_file_path=GET_READINGS_QUERY_FILE_PATH,
         )
         assert expected == settings
 

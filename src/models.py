@@ -17,7 +17,7 @@ from pydantic.alias_generators import to_camel
 from src.constants import (
     ACCOUNT_NUMBER_QUERY_FILE_PATH,
     DATETIME_FORMAT,
-    QUERY_FILE_PATH,
+    GET_READINGS_QUERY_FILE_PATH,
 )
 
 
@@ -43,7 +43,7 @@ class Settings(BaseModel):
     first: int
     gas_reading_frequency: ReadingFrequencyType | None = None
     electricity_reading_frequency: ReadingFrequencyType | None = None
-    query_file_path: Path = QUERY_FILE_PATH
+    query_file_path: Path = GET_READINGS_QUERY_FILE_PATH
     account_number_query_path: Path = ACCOUNT_NUMBER_QUERY_FILE_PATH
 
 
