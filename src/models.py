@@ -35,8 +35,8 @@ class Settings(BaseModel):
     start_at: datetime
     end_at: datetime
     first: int
-    gas_reading_frequency: ReadingFrequencyType | None
-    electricity_reading_frequency: ReadingFrequencyType | None
+    gas_reading_frequency: ReadingFrequencyType | None = None
+    electricity_reading_frequency: ReadingFrequencyType | None = None
 
 
 class Headers(BaseModel):
