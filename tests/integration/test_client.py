@@ -1,13 +1,7 @@
 from pathlib import Path
 
 from src.client import get_account_number, get_paginated_readings
-from src.constants import (
-    ACCOUNT_NUMBER_QUERY_FILE_PATH,
-    GET_READINGS_QUERY_FILE_PATH,
-)
-    ACCOUNT_NUMBER_QUERY_FILE_PATH,
-    GET_READINGS_QUERY_FILE_PATH,
-)
+from src.constants import ACCOUNT_NUMBER_QUERY_FILE_PATH, GET_READINGS_QUERY_FILE_PATH
 from src.factories import get_settings, get_variables
 from src.models import PaginatedReadings
 
