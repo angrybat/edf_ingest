@@ -4,8 +4,13 @@ from tempfile import TemporaryDirectory
 
 from gql import gql
 
-from src.factories import get_authorized_client, get_query, get_settings
-from src.models import Headers, Settings
+from src.factories import (
+    get_authorized_client,
+    get_query,
+    get_settings,
+    get_utility_filters,
+)
+from src.models import ElectricityFilter, GasFilter, Headers, Settings
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
     ELECTRICITY_READING_FREQUENCY,
@@ -75,3 +80,25 @@ class TestGetQuery:
 
         expected = gql(QUERY_STRING)
         assert expected == query
+
+
+class TestGetUtilityFilters:
+    def test_returns_gas_and_electricity_filters(self) -> None:
+        settings = Settings(
+            account_number=ACCOUNT_NUMBER,
+            jwt=JWT,
+            url=URL,
+            start_at=START_AT,
+            end_at=END_AT,
+            first=FIRST,
+            gas_reading_frequency=GAS_READING_FREQUENCY,
+            electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
+        )
+
+        utility_filters = get_utility_filters(settings)
+
+        expected = [
+            ElectricityFilter(reading_frequency_type=ELECTRICITY_READING_FREQUENCY),
+            GasFilter(reading_frequency_type=GAS_READING_FREQUENCY),
+        ]
+        assert expected == utility_filters
