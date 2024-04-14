@@ -212,7 +212,7 @@ def test_paginated_readings_maps_from_dict() -> None:
     assert expected == paginated_readings
 
 
-def test_gas_readings_returns_only_readings_of_type_gas() -> None:
+def test_gas_returns_only_readings_of_type_gas() -> None:
     gas_reading = Reading(
         start_at=datetime(
             year=2024,
@@ -273,3 +273,62 @@ def test_gas_readings_returns_only_readings_of_type_gas() -> None:
     gas_readings = paginated_readings.gas
 
     assert [gas_reading] == gas_readings
+
+
+def test_electricity_returns_only_readings_of_type_electricity() -> None:
+    gas_reading = Reading(
+        start_at=datetime(
+            year=2024,
+            month=1,
+            day=11,
+            tzinfo=timezone.utc,
+        ),
+        end_at=datetime(
+            year=2024,
+            month=1,
+            day=11,
+            hour=1,
+            tzinfo=timezone.utc,
+        ),
+        unit="kwh",
+        value=33.333333333333333333333333333333,
+        costs=[
+            Cost(amount=10.50, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+            Cost(amount=69.49, currency="GBP", type=CostType.CONSUMPTION_COST),
+        ],
+        type=ReadingType.GAS,
+    )
+    electricity_reading = Reading(
+        start_at=datetime(
+            year=2024,
+            month=1,
+            day=11,
+            hour=23,
+            tzinfo=timezone.utc,
+        ),
+        end_at=datetime(
+            year=2024,
+            month=1,
+            day=12,
+            tzinfo=timezone.utc,
+        ),
+        unit="kwh",
+        value=76.432113454,
+        costs=[
+            Cost(amount=40.53, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+            Cost(
+                amount=209.54,
+                currency="GBP",
+                type=CostType.CONSUMPTION_COST,
+            ),
+        ],
+        type=ReadingType.ELECTRICITY,
+    )
+    paginated_readings = PaginatedReadings(
+        readings=[gas_reading, electricity_reading],
+        has_next_page=False,
+    )
+
+    electricity_readings = paginated_readings.electricity
+
+    assert [electricity_reading] == electricity_readings
