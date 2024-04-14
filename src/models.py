@@ -102,6 +102,21 @@ class Variables(EdfModel):
         return datetime.strftime(DATETIME_FORMAT)[:-3] + "Z"
 
 
+class EmailAndPassword(BaseModel):
+    email: str
+    password: str
+
+
+class AuthorizationVariables(EdfModel):
+    email: str = Field(..., exclude=True)
+    password: str = Field(..., exclude=True)
+
+    @computed_field
+    @property
+    def input(self) -> EmailAndPassword:
+        return EmailAndPassword(email=self.email, password=self.password)
+
+
 class CostType(Enum):
     STANDING_CHARGE_COST = "STANDING_CHARGE_COST"
     CONSUMPTION_COST = "CONSUMPTION_COST"
