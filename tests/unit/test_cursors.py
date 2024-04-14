@@ -10,10 +10,12 @@ from tests.unit.constants import (
     ACCOUNT_NUMBER,
     CURSOR,
     ELECTRICITY_READING_FREQUENCY,
+    EMAIL_ADDRESS,
     END_AT,
     FIRST,
     GAS_READING_FREQUENCY,
     JWT,
+    PASSWORD,
     START_AT,
     URL,
 )
@@ -22,6 +24,8 @@ from tests.unit.constants import (
 @fixture
 def readings_cursor() -> ReadingsCursor:
     settings = Settings(
+        email_address=EMAIL_ADDRESS,
+        password=PASSWORD,
         jwt=JWT,
         url=URL,
         start_at=START_AT,

@@ -15,10 +15,12 @@ from src.factories import (
 from src.models import ElectricityFilter, GasFilter, Headers, Settings
 from tests.unit.constants import (
     ELECTRICITY_READING_FREQUENCY,
+    EMAIL_ADDRESS,
     END_AT,
     FIRST,
     GAS_READING_FREQUENCY,
     JWT,
+    PASSWORD,
     QUERY_STRING,
     START_AT,
     URL,
@@ -31,6 +33,8 @@ class TestGetSettings:
             env_file_path = Path(temp_dir) / "env.json"
             settings_file_contents = {
                 "jwt": JWT,
+                "email_address": EMAIL_ADDRESS,
+                "password": PASSWORD,
                 "url": URL,
                 "start_at": START_AT.strftime(DATETIME_FORMAT),
                 "end_at": END_AT.strftime(DATETIME_FORMAT),
@@ -45,6 +49,8 @@ class TestGetSettings:
             settings = get_settings(env_file_path)
 
         expected = Settings(
+            email_address=EMAIL_ADDRESS,
+            password=PASSWORD,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -86,6 +92,8 @@ class TestGetQuery:
 class TestGetUtilityFilters:
     def test_returns_gas_and_electricity_filters(self) -> None:
         settings = Settings(
+            email_address=EMAIL_ADDRESS,
+            password=PASSWORD,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -105,6 +113,8 @@ class TestGetUtilityFilters:
 
     def test_returns_electricity_filter(self) -> None:
         settings = Settings(
+            email_address=EMAIL_ADDRESS,
+            password=PASSWORD,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -122,6 +132,8 @@ class TestGetUtilityFilters:
 
     def test_returns_gas_filter(self) -> None:
         settings = Settings(
+            email_address=EMAIL_ADDRESS,
+            password=PASSWORD,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -139,6 +151,8 @@ class TestGetUtilityFilters:
 
     def test_throws_exception(self) -> None:
         settings = Settings(
+            email_address=EMAIL_ADDRESS,
+            password=PASSWORD,
             jwt=JWT,
             url=URL,
             start_at=START_AT,

@@ -3,6 +3,8 @@ from datetime import datetime
 from src.models import ReadingFrequencyType
 
 JWT = "ThisIsAJwt"
+EMAIL_ADDRESS = "email@address.com"
+PASSWORD = "password"
 ACCOUNT_NUMBER = "account_number"
 URL = "http://localhost:8008"
 START_AT = datetime(2024, 4, 1)
