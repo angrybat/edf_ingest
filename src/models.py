@@ -43,12 +43,11 @@ class Headers(BaseModel):
 
 
 class EdfModel(BaseModel):
-    model_config = ConfigDict(
-        alias_generator=to_camel, populate_by_name=True, use_enum_values=True
-    )
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
 
 
 class UtilityFilter(EdfModel):
+    model_config = ConfigDict(use_enum_values=True)
     reading_frequency_type: ReadingFrequencyType
 
 
@@ -131,3 +130,7 @@ class PaginatedReadings(EdfModel):
             "account", "properties", 0, "measurements", "pageInfo", "hasNextPage"
         ),
     )
+
+    @property
+    def gas(self) -> List[Reading]:
+        return [reading for reading in self.readings if reading.type == ReadingType.GAS]
