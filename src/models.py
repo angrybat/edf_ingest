@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
@@ -11,6 +11,7 @@ from pydantic import (
     Field,
     computed_field,
     field_serializer,
+    field_validator,
 )
 from pydantic.alias_generators import to_camel
 
@@ -179,3 +180,13 @@ class PaginatedReadings(EdfModel):
 
     def _filter_readings(self, reading_type: ReadingType) -> List[Reading]:
         return [reading for reading in self.readings if reading.type == reading_type]
+
+
+class Credentials(EdfModel):
+    jwt: str = Field(..., validation_alias=AliasPath("obtainKrakenToken", "token"))
+    expires_at: datetime = Field(
+        ..., validation_alias=AliasPath("obtainKrakenToken", "payload", "exp")
+    )
+    refresh_token: str = Field(
+        ..., validation_alias=AliasPath("obtainKrakenToken", "refreshToken")
+    )
