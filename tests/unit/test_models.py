@@ -78,7 +78,7 @@ def test_variables_maps_to_dict() -> None:
 
 
 def test_paginated_readings_maps_from_dict() -> None:
-    dict = {
+    readings_response = {
         "account": {
             "properties": [
                 {
@@ -150,7 +150,7 @@ def test_paginated_readings_maps_from_dict() -> None:
         }
     }
 
-    paginated_readings = PaginatedReadings(**dict)
+    paginated_readings = PaginatedReadings(**readings_response)
 
     expected = PaginatedReadings(
         readings=[
@@ -210,3 +210,66 @@ def test_paginated_readings_maps_from_dict() -> None:
         has_next_page=False,
     )
     assert expected == paginated_readings
+
+
+def test_gas_readings_returns_only_readings_of_type_gas() -> None:
+    gas_reading = Reading(
+        start_at=datetime(
+            year=2024,
+            month=1,
+            day=11,
+            tzinfo=timezone.utc,
+        ),
+        end_at=datetime(
+            year=2024,
+            month=1,
+            day=11,
+            hour=1,
+            tzinfo=timezone.utc,
+        ),
+        unit="kwh",
+        value=33.333333333333333333333333333333,
+        costs=[
+            Cost(amount=10.50, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+            Cost(amount=69.49, currency="GBP", type=CostType.CONSUMPTION_COST),
+        ],
+        type=ReadingType.GAS,
+    )
+    paginated_readings = PaginatedReadings(
+        readings=[
+            gas_reading,
+            Reading(
+                start_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=11,
+                    hour=23,
+                    tzinfo=timezone.utc,
+                ),
+                end_at=datetime(
+                    year=2024,
+                    month=1,
+                    day=12,
+                    tzinfo=timezone.utc,
+                ),
+                unit="kwh",
+                value=76.432113454,
+                costs=[
+                    Cost(
+                        amount=40.53, currency="GBP", type=CostType.STANDING_CHARGE_COST
+                    ),
+                    Cost(
+                        amount=209.54,
+                        currency="GBP",
+                        type=CostType.CONSUMPTION_COST,
+                    ),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+        ],
+        has_next_page=False,
+    )
+
+    gas_readings = paginated_readings.gas
+
+    assert [gas_reading] == gas_readings
