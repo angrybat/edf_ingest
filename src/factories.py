@@ -34,6 +34,17 @@ def get_utility_filters(settings: Settings) -> List[GasFilter | ElectricityFilte
             ),
             GasFilter(reading_frequency_type=settings.gas_reading_frequency),
         ]
-    return [
-        ElectricityFilter(reading_frequency_type=settings.electricity_reading_frequency)
-    ]
+    if settings.electricity_reading_frequency:
+        return [
+            ElectricityFilter(
+                reading_frequency_type=settings.electricity_reading_frequency
+            )
+        ]
+    if settings.gas_reading_frequency:
+        return [GasFilter(reading_frequency_type=settings.gas_reading_frequency)]
+    raise ValueError(
+        """
+        Neither gas_reading_frequency or electricity_reading_frequency at least one of
+         these need to be set.
+        """
+    )
