@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from enum import Enum
 from typing import List
 
@@ -91,7 +92,7 @@ class CostType(Enum):
 
 
 class Cost(EdfModel):
-    amount: float = Field(
+    amount: Decimal = Field(
         ..., validation_alias=AliasPath("costInclTax", "estimatedAmount")
     )
     currency: str = Field(
@@ -109,7 +110,7 @@ class Reading(EdfModel):
     start_at: datetime = Field(..., validation_alias=AliasPath("node", "startAt"))
     end_at: datetime = Field(..., validation_alias=AliasPath("node", "endAt"))
     unit: str = Field(..., validation_alias=AliasPath("node", "unit"))
-    value: float = Field(..., validation_alias=AliasPath("node", "value"))
+    value: Decimal = Field(..., validation_alias=AliasPath("node", "value"))
     costs: List[Cost] = Field(
         ..., validation_alias=AliasPath("node", "metaData", "statistics")
     )
