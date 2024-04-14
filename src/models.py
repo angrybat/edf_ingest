@@ -13,6 +13,8 @@ from pydantic import (
 )
 from pydantic.alias_generators import to_camel
 
+from src.constants import DATETIME_FORMAT
+
 
 class ReadingFrequencyType(Enum):
     RAW_INTERVAL = "RAW_INTERVAL"
@@ -88,7 +90,7 @@ class Variables(EdfModel):
         return_type=str,
     )
     def get_datetime_str(self, datetime: datetime) -> str:
-        return datetime.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+        return datetime.strftime(DATETIME_FORMAT)[:-3] + "Z"
 
 
 class CostType(Enum):

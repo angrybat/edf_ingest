@@ -1,10 +1,10 @@
-from pathlib import Path
 from typing import List
 from unittest.mock import patch
 
 import pytest
 from pytest import fixture
 
+from src.constants import QUERY_FILE_PATH
 from src.cursors import ReadingsCursor
 from src.models import PaginatedReadings, Reading, Settings
 from tests.unit.constants import (
@@ -21,7 +21,6 @@ from tests.unit.constants import (
 
 @fixture
 def readings_cursor() -> ReadingsCursor:
-    query_file_path = Path("src/get_measurements.graphql")
     settings = Settings(
         account_number=ACCOUNT_NUMBER,
         jwt=JWT,
@@ -32,7 +31,7 @@ def readings_cursor() -> ReadingsCursor:
         gas_reading_frequency=GAS_READING_FREQUENCY,
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
-    return ReadingsCursor(settings, query_file_path)
+    return ReadingsCursor(settings, QUERY_FILE_PATH)
 
 
 class TestReadingsCursor:

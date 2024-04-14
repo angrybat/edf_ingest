@@ -1,15 +1,12 @@
-from pathlib import Path
-
 from src.client import get_paginated_readings
+from src.constants import ENV_FILE_PATH, QUERY_FILE_PATH
 from src.factories import get_settings, get_variables
 
-env_file_path = Path("env.json")
-query_file_path = Path("src/get_measurements.graphql")
-settings = get_settings(env_file_path)
+settings = get_settings(ENV_FILE_PATH)
 variables = get_variables(settings)
 
 readings = get_paginated_readings(
-    settings.url, settings.jwt, query_file_path, variables
+    settings.url, settings.jwt, QUERY_FILE_PATH, variables
 )
 
 with open("output.json", "w") as output_file:

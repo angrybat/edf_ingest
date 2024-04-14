@@ -5,6 +5,7 @@ from tempfile import TemporaryDirectory
 import pytest
 from gql import gql
 
+from src.constants import DATETIME_FORMAT
 from src.factories import (
     get_authorized_client,
     get_query,
@@ -33,8 +34,8 @@ class TestGetSettings:
                 "jwt": JWT,
                 "url": URL,
                 "account_number": ACCOUNT_NUMBER,
-                "start_at": START_AT.strftime("%Y-%m-%dT%H:%M:%S.%f"),
-                "end_at": END_AT.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+                "start_at": START_AT.strftime(DATETIME_FORMAT),
+                "end_at": END_AT.strftime(DATETIME_FORMAT),
                 "first": FIRST,
                 "gas_reading_frequency": GAS_READING_FREQUENCY.value,
                 "electricity_reading_frequency": ELECTRICITY_READING_FREQUENCY.value,
