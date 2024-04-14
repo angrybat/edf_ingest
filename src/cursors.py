@@ -20,11 +20,12 @@ class ReadingsCursor:
             self.query_file_path,
             self.variables,
         )
-        self.variables.start_at = sorted(
-            [reading.end_at for reading in self._paginated_readings.readings],
-            reverse=True,
-        )[0]
+        self.variables.start_at = self._get_next_start_at()
         return self._paginated_readings.has_next_page
+
+    def _get_next_start_at(self):
+        end_ats = [reading.end_at for reading in self._paginated_readings.readings]
+        return sorted(end_ats, reverse=True)[0]
 
     @property
     def gas_readings(self) -> List[Reading]:
