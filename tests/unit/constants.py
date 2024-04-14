@@ -3,6 +3,7 @@ from datetime import datetime
 from src.models import ReadingFrequencyType
 
 JWT = "ThisIsAJwt"
+REFRESH_TOKEN = "ThisIsARefreshToken"
 EMAIL_ADDRESS = "email@address.com"
 PASSWORD = "password"
 ACCOUNT_NUMBER = "account_number"

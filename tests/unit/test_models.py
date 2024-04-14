@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from json import load
 from typing import List
 
@@ -6,6 +6,7 @@ from pytest import fixture
 
 from src.models import (
     AuthorizationVariables,
+    Credentials,
     ElectricityFilter,
     GasFilter,
     GetReadingsVariables,
@@ -14,7 +15,15 @@ from src.models import (
     Reading,
     ReadingFrequencyType,
 )
-from tests.unit.constants import ACCOUNT_NUMBER, CURSOR, EMAIL_ADDRESS, JWT, PASSWORD
+from tests.unit.constants import (
+    ACCOUNT_NUMBER,
+    CURSOR,
+    EMAIL_ADDRESS,
+    JWT,
+    PASSWORD,
+    REFRESH_TOKEN,
+    URL,
+)
 
 
 class TestHeaders:
@@ -114,3 +123,32 @@ class TestPaginatedReadings:
         self, paginated_readings: PaginatedReadings, electricity_readings: List[Reading]
     ) -> None:
         assert electricity_readings == paginated_readings.electricity
+
+
+class TestCredentials:
+    def test_maps_from_dict(self) -> None:
+        jwt_response = {
+            "obtainKrakenToken": {
+                "token": JWT,
+                "payload": {
+                    "sub": "kraken|account-user:123",
+                    "gty": "EMAIL-AND-PASSWORD",
+                    "email": EMAIL_ADDRESS,
+                    "tokenUse": "access",
+                    "iss": URL,
+                    "iat": 1711929600,
+                    "exp": 1711933200,
+                    "origIat": 1711929600,
+                },
+                "refreshToken": REFRESH_TOKEN,
+            }
+        }
+
+        credentials = Credentials(**jwt_response)
+
+        expected = Credentials(
+            jwt=JWT,
+            expires_at=datetime(2024, 4, 1, 1, tzinfo=timezone.utc),
+            refresh_token=REFRESH_TOKEN,
+        )
+        assert expected == credentials
