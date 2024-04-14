@@ -6,21 +6,48 @@ from gql import gql
 
 from src.factories import get_authorized_client, get_query, get_settings
 from src.models import Headers, Settings
-from tests.unit.constants import ACCOUNT_NUMBER, JWT, QUERY_STRING, URL
+from tests.unit.constants import (
+    ACCOUNT_NUMBER,
+    ELECTRICITY_READING_FREQUENCY,
+    END_AT,
+    FIRST,
+    GAS_READING_FREQUENCY,
+    JWT,
+    QUERY_STRING,
+    START_AT,
+    URL,
+)
 
 
 class TestGetSettings:
     def test_settings_can_be_read_from_file(self) -> None:
         with TemporaryDirectory() as temp_dir:
             env_file_path = Path(temp_dir) / "env.json"
+            settings_file_contents = {
+                "jwt": JWT,
+                "url": URL,
+                "account_number": ACCOUNT_NUMBER,
+                "start_at": START_AT.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+                "end_at": END_AT.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+                "first": FIRST,
+                "gas_reading_frequency": GAS_READING_FREQUENCY.value,
+                "electricity_reading_frequency": ELECTRICITY_READING_FREQUENCY.value,
+            }
             with open(env_file_path, "w") as env_file:
-                dump(
-                    {"jwt": JWT, "url": URL, "account_number": ACCOUNT_NUMBER}, env_file
-                )
+                dump(settings_file_contents, env_file)
 
             settings = get_settings(env_file_path)
 
-        expected = Settings(account_number=ACCOUNT_NUMBER, jwt=JWT, url=URL)
+        expected = Settings(
+            account_number=ACCOUNT_NUMBER,
+            jwt=JWT,
+            url=URL,
+            start_at=START_AT,
+            end_at=END_AT,
+            first=FIRST,
+            gas_reading_frequency=GAS_READING_FREQUENCY,
+            electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
+        )
         assert expected == settings
 
 

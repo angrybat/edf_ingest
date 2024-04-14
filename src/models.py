@@ -32,6 +32,11 @@ class Settings(BaseModel):
     account_number: str
     jwt: str
     url: str
+    start_at: datetime
+    end_at: datetime
+    first: int
+    gas_reading_frequency: ReadingFrequencyType | None
+    electricity_reading_frequency: ReadingFrequencyType | None
 
 
 class Headers(BaseModel):
