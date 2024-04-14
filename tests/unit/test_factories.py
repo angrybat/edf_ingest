@@ -14,7 +14,6 @@ from src.factories import (
 )
 from src.models import ElectricityFilter, GasFilter, Headers, Settings
 from tests.unit.constants import (
-    ACCOUNT_NUMBER,
     ELECTRICITY_READING_FREQUENCY,
     END_AT,
     FIRST,
