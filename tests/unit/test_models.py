@@ -1,20 +1,16 @@
-from datetime import datetime, timezone
-from decimal import Decimal
+from datetime import datetime
 from json import load
 from typing import List
 
 from pytest import fixture
 
 from src.models import (
-    Cost,
-    CostType,
     ElectricityFilter,
     GasFilter,
     Headers,
     PaginatedReadings,
     Reading,
     ReadingFrequencyType,
-    ReadingType,
     Variables,
 )
 from tests.unit.constants import ACCOUNT_NUMBER, JWT
