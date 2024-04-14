@@ -6,7 +6,7 @@ from src.constants import (
     ENV_FILE_PATH,
     GET_READINGS_QUERY_FILE_PATH,
 )
-from src.factories import get_settings, get_variables
+from src.factories import get_readings_variables, get_settings
 from src.models import PaginatedReadings
 
 
@@ -16,7 +16,7 @@ def test_can_retrieve_paginated_readings() -> None:
     account_number = get_account_number(
         settings.url, settings.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
     )
-    variables = get_variables(settings, account_number)
+    variables = get_readings_variables(settings, account_number)
     paginated_readings = get_paginated_readings(
         settings.url, settings.jwt, GET_READINGS_QUERY_FILE_PATH, variables
     )

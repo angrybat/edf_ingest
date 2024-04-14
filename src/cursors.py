@@ -1,13 +1,13 @@
 from typing import List
 
 from src.client import get_paginated_readings
-from src.factories import get_variables
+from src.factories import get_readings_variables
 from src.models import PaginatedReadings, Reading, Settings
 
 
 class ReadingsCursor:
     def __init__(self, settings: Settings, account_number: str) -> None:
-        self.variables = get_variables(settings, account_number)
+        self.variables = get_readings_variables(settings, account_number)
         self.url = settings.url
         self.jwt = settings.jwt
         self.query_file_path = settings.get_readings_query_file_path

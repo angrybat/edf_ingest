@@ -21,7 +21,9 @@ def get_settings(file_path: Path) -> Settings:
         return Settings(**json)
 
 
-def get_variables(settings: Settings, account_number: str) -> GetReadingsVariables:
+def get_readings_variables(
+    settings: Settings, account_number: str
+) -> GetReadingsVariables:
     return GetReadingsVariables(
         account_number=account_number,
         start_at=settings.start_at,
