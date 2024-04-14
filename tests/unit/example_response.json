@@ -1,0 +1,189 @@
+{
+    "account": {
+        "properties": [
+            {
+                "measurements": {
+                    "edges": [
+                        {
+                            "node": {
+                                "startAt": "2024-01-11T00:00:00+00:00",
+                                "endAt": "2024-01-12T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "49.754585606701326",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "91.91140781918034",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "3.9241057679550884",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "GasFiltersOutput"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "startAt": "2024-01-12T00:00:00+00:00",
+                                "endAt": "2024-01-13T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "82.87448481198764",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "73.78014397278886",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "89.57461582198445",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "GasFiltersOutput"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "startAt": "2024-01-13T00:00:00+00:00",
+                                "endAt": "2024-01-14T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "26.0325834943407",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "70.48907190813418",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "39.97638710056837",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "GasFiltersOutput"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "startAt": "2024-01-11T00:00:00+00:00",
+                                "endAt": "2024-01-12T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "94.10837814392384",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "25.255747036638244",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "25.581227231256353",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "ElectricityFiltersOutput"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "startAt": "2024-01-12T00:00:00+00:00",
+                                "endAt": "2024-01-13T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "5.781684051845659",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "82.80427671543171",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "46.41564806162006",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "ElectricityFiltersOutput"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "node": {
+                                "startAt": "2024-01-13T00:00:00+00:00",
+                                "endAt": "2024-01-14T00:00:00+00:00",
+                                "unit": "kwh",
+                                "value": "31.281634430543235",
+                                "metaData": {
+                                    "statistics": [
+                                        {
+                                            "type": "STANDING_CHARGE_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "9.805394767961195",
+                                                "costCurrency": "GBP"
+                                            }
+                                        },
+                                        {
+                                            "type": "CONSUMPTION_COST",
+                                            "costInclTax": {
+                                                "estimatedAmount": "74.80780318455047",
+                                                "costCurrency": "GBP"
+                                            }
+                                        }
+                                    ],
+                                    "utilityFilters": {
+                                        "__typename": "ElectricityFiltersOutput"
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "pageInfo": {
+                        "hasNextPage": false
+                    }
+                }
+            }
+        ]
+    }
+}

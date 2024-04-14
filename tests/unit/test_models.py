@@ -1,4 +1,7 @@
 from datetime import datetime, timezone
+from decimal import Decimal
+from json import load
+from typing import List
 
 from pytest import fixture
 
@@ -81,144 +84,142 @@ class TestVariable:
 
 @fixture
 def readings_response() -> dict:
-    return {
-        "account": {
-            "properties": [
-                {
-                    "measurements": {
-                        "edges": [
-                            {
-                                "node": {
-                                    "startAt": "2024-01-11T00:00:00+00:00",
-                                    "endAt": "2024-01-11T01:00:00+00:00",
-                                    "unit": "kwh",
-                                    "value": "33.333333333333333333333333333333",
-                                    "metaData": {
-                                        "statistics": [
-                                            {
-                                                "type": "STANDING_CHARGE_COST",
-                                                "costInclTax": {
-                                                    "estimatedAmount": "10.50",
-                                                    "costCurrency": "GBP",
-                                                },
-                                            },
-                                            {
-                                                "type": "CONSUMPTION_COST",
-                                                "costInclTax": {
-                                                    "estimatedAmount": "69.49",
-                                                    "costCurrency": "GBP",
-                                                },
-                                            },
-                                        ],
-                                        "utilityFilters": {
-                                            "__typename": "GasFiltersOutput"
-                                        },
-                                    },
-                                }
-                            },
-                            {
-                                "node": {
-                                    "startAt": "2024-01-11T23:00:00+00:00",
-                                    "endAt": "2024-01-12T00:00:00+00:00",
-                                    "unit": "kwh",
-                                    "value": "76.432113454",
-                                    "metaData": {
-                                        "statistics": [
-                                            {
-                                                "type": "STANDING_CHARGE_COST",
-                                                "costInclTax": {
-                                                    "estimatedAmount": "40.53",
-                                                    "costCurrency": "GBP",
-                                                },
-                                            },
-                                            {
-                                                "type": "CONSUMPTION_COST",
-                                                "costInclTax": {
-                                                    "estimatedAmount": "209.54",
-                                                    "costCurrency": "GBP",
-                                                },
-                                            },
-                                        ],
-                                        "utilityFilters": {
-                                            "__typename": "ElectricityFiltersOutput"
-                                        },
-                                    },
-                                }
-                            },
-                        ],
-                        "pageInfo": {"hasNextPage": False},
-                    },
-                }
-            ]
-        }
-    }
+    with open("tests/unit/example_response.json") as file:
+        return load(file)
 
 
 @fixture
-def gas_reading() -> Reading:
-    return Reading(
-        start_at=datetime(
-            year=2024,
-            month=1,
-            day=11,
-            tzinfo=timezone.utc,
+def gas_readings() -> List[Reading]:
+    return [
+        Reading(
+            start_at=datetime(2024, 1, 11, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 12, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("49.754585606701326"),
+            costs=[
+                Cost(
+                    amount=Decimal("91.91140781918034"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("3.9241057679550884"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.GAS,
         ),
-        end_at=datetime(
-            year=2024,
-            month=1,
-            day=11,
-            hour=1,
-            tzinfo=timezone.utc,
+        Reading(
+            start_at=datetime(2024, 1, 12, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 13, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("82.87448481198764"),
+            costs=[
+                Cost(
+                    amount=Decimal("73.78014397278886"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("89.57461582198445"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.GAS,
         ),
-        unit="kwh",
-        value=33.333333333333333333333333333333,
-        costs=[
-            Cost(amount=10.50, currency="GBP", type=CostType.STANDING_CHARGE_COST),
-            Cost(amount=69.49, currency="GBP", type=CostType.CONSUMPTION_COST),
-        ],
-        type=ReadingType.GAS,
-    )
+        Reading(
+            start_at=datetime(2024, 1, 13, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 14, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("26.0325834943407"),
+            costs=[
+                Cost(
+                    amount=Decimal("70.48907190813418"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("39.97638710056837"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.GAS,
+        ),
+    ]
 
 
 @fixture
-def electricity_reading() -> Reading:
-    return Reading(
-        start_at=datetime(
-            year=2024,
-            month=1,
-            day=11,
-            hour=23,
-            tzinfo=timezone.utc,
+def electricity_readings() -> List[Reading]:
+    return [
+        Reading(
+            start_at=datetime(2024, 1, 11, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 12, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("94.10837814392384"),
+            costs=[
+                Cost(
+                    amount=Decimal("25.255747036638244"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("25.581227231256353"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.ELECTRICITY,
         ),
-        end_at=datetime(
-            year=2024,
-            month=1,
-            day=12,
-            tzinfo=timezone.utc,
+        Reading(
+            start_at=datetime(2024, 1, 12, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 13, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("5.781684051845659"),
+            costs=[
+                Cost(
+                    amount=Decimal("82.80427671543171"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("46.41564806162006"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.ELECTRICITY,
         ),
-        unit="kwh",
-        value=76.432113454,
-        costs=[
-            Cost(amount=40.53, currency="GBP", type=CostType.STANDING_CHARGE_COST),
-            Cost(
-                amount=209.54,
-                currency="GBP",
-                type=CostType.CONSUMPTION_COST,
-            ),
-        ],
-        type=ReadingType.ELECTRICITY,
-    )
+        Reading(
+            start_at=datetime(2024, 1, 13, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 14, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("31.281634430543235"),
+            costs=[
+                Cost(
+                    amount=Decimal("9.805394767961195"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("74.80780318455047"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.ELECTRICITY,
+        ),
+    ]
 
 
 @fixture
 def paginated_readings(
-    gas_reading: Reading, electricity_reading: Reading
+    gas_readings: List[Reading], electricity_readings: List[Reading]
 ) -> PaginatedReadings:
     return PaginatedReadings(
-        readings=[
-            gas_reading,
-            electricity_reading,
-        ],
+        readings=gas_readings + electricity_readings,
         has_next_page=False,
     )
 
@@ -232,11 +233,11 @@ class TestPaginatedReadings:
         assert paginated_readings == actual
 
     def test_gas_returns_only_readings_of_type_gas(
-        self, paginated_readings: PaginatedReadings, gas_reading: Reading
+        self, paginated_readings: PaginatedReadings, gas_readings: List[Reading]
     ) -> None:
-        assert [gas_reading] == paginated_readings.gas
+        assert gas_readings == paginated_readings.gas
 
     def test_electricity_returns_only_readings_of_type_electricity(
-        self, paginated_readings: PaginatedReadings, electricity_reading: Reading
+        self, paginated_readings: PaginatedReadings, electricity_readings: List[Reading]
     ) -> None:
-        assert [electricity_reading] == paginated_readings.electricity
+        assert electricity_readings == paginated_readings.electricity
