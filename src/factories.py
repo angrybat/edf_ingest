@@ -27,9 +27,13 @@ def get_query(file_path: Path) -> DocumentNode:
 
 
 def get_utility_filters(settings: Settings) -> List[GasFilter | ElectricityFilter]:
+    if settings.gas_reading_frequency and settings.electricity_reading_frequency:
+        return [
+            ElectricityFilter(
+                reading_frequency_type=settings.electricity_reading_frequency
+            ),
+            GasFilter(reading_frequency_type=settings.gas_reading_frequency),
+        ]
     return [
-        ElectricityFilter(
-            reading_frequency_type=settings.electricity_reading_frequency
-        ),
-        GasFilter(reading_frequency_type=settings.gas_reading_frequency),
+        ElectricityFilter(reading_frequency_type=settings.electricity_reading_frequency)
     ]
