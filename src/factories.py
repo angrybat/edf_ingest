@@ -6,7 +6,13 @@ from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from graphql import DocumentNode
 
-from src.models import ElectricityFilter, GasFilter, Headers, Settings, Variables
+from src.models import (
+    ElectricityFilter,
+    GasFilter,
+    GetReadingsVariables,
+    Headers,
+    Settings,
+)
 
 
 def get_settings(file_path: Path) -> Settings:
@@ -15,8 +21,8 @@ def get_settings(file_path: Path) -> Settings:
         return Settings(**json)
 
 
-def get_variables(settings: Settings, account_number: str) -> Variables:
-    return Variables(
+def get_variables(settings: Settings, account_number: str) -> GetReadingsVariables:
+    return GetReadingsVariables(
         account_number=account_number,
         start_at=settings.start_at,
         end_at=settings.end_at,

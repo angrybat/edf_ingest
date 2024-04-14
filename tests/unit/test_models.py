@@ -8,11 +8,11 @@ from src.models import (
     AuthorizationVariables,
     ElectricityFilter,
     GasFilter,
+    GetReadingsVariables,
     Headers,
     PaginatedReadings,
     Reading,
     ReadingFrequencyType,
-    Variables,
 )
 from tests.unit.constants import ACCOUNT_NUMBER, CURSOR, EMAIL_ADDRESS, JWT, PASSWORD
 
@@ -28,12 +28,12 @@ class TestHeaders:
         assert expected == actual
 
 
-class TestVariable:
+class TestGetReadingsVariable:
     def test_maps_to_dict(self) -> None:
         first = 10
         gas_filter_frequency = ReadingFrequencyType.MONTH_INTERVAL
         electricity_filter_frequency = ReadingFrequencyType.DAY_INTERVAL
-        variables = Variables(
+        variables = GetReadingsVariables(
             account_number=ACCOUNT_NUMBER,
             start_at=datetime(
                 year=2024,

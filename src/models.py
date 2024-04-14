@@ -85,7 +85,7 @@ class ElectricityFilter(EdfModel):
         return UtilityFilter(reading_frequency_type=self.reading_frequency_type)
 
 
-class Variables(EdfModel):
+class GetReadingsVariables(EdfModel):
     account_number: str
     start_at: datetime
     end_at: datetime
