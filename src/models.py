@@ -85,6 +85,7 @@ class Variables(EdfModel):
     end_at: datetime
     first: int
     utility_filters: List[GasFilter | ElectricityFilter]
+    after: str = ""
 
     @field_serializer(
         "start_at",
@@ -138,6 +139,12 @@ class PaginatedReadings(EdfModel):
         ...,
         validation_alias=AliasPath(
             "account", "properties", 0, "measurements", "pageInfo", "hasNextPage"
+        ),
+    )
+    cursor: str = Field(
+        ...,
+        validation_alias=AliasPath(
+            "account", "properties", 0, "measurements", "pageInfo", "endCursor"
         ),
     )
 
