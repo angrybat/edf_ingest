@@ -6,8 +6,8 @@ from src.models import PaginatedReadings, Reading, Settings
 
 
 class ReadingsCursor:
-    def __init__(self, settings: Settings) -> None:
-        self.variables = get_variables(settings)
+    def __init__(self, settings: Settings, account_number: str) -> None:
+        self.variables = get_variables(settings, account_number)
         self.url = settings.url
         self.jwt = settings.jwt
         self.query_file_path = settings.query_file_path

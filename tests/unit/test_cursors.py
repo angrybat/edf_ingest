@@ -22,7 +22,6 @@ from tests.unit.constants import (
 @fixture
 def readings_cursor() -> ReadingsCursor:
     settings = Settings(
-        account_number=ACCOUNT_NUMBER,
         jwt=JWT,
         url=URL,
         start_at=START_AT,
@@ -31,7 +30,7 @@ def readings_cursor() -> ReadingsCursor:
         gas_reading_frequency=GAS_READING_FREQUENCY,
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
-    return ReadingsCursor(settings)
+    return ReadingsCursor(settings, ACCOUNT_NUMBER)
 
 
 class TestReadingsCursor:

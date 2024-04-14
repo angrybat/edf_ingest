@@ -33,7 +33,6 @@ class TestGetSettings:
             settings_file_contents = {
                 "jwt": JWT,
                 "url": URL,
-                "account_number": ACCOUNT_NUMBER,
                 "start_at": START_AT.strftime(DATETIME_FORMAT),
                 "end_at": END_AT.strftime(DATETIME_FORMAT),
                 "first": FIRST,
@@ -47,7 +46,6 @@ class TestGetSettings:
             settings = get_settings(env_file_path)
 
         expected = Settings(
-            account_number=ACCOUNT_NUMBER,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -89,7 +87,6 @@ class TestGetQuery:
 class TestGetUtilityFilters:
     def test_returns_gas_and_electricity_filters(self) -> None:
         settings = Settings(
-            account_number=ACCOUNT_NUMBER,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -109,7 +106,6 @@ class TestGetUtilityFilters:
 
     def test_returns_electricity_filter(self) -> None:
         settings = Settings(
-            account_number=ACCOUNT_NUMBER,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -127,7 +123,6 @@ class TestGetUtilityFilters:
 
     def test_returns_gas_filter(self) -> None:
         settings = Settings(
-            account_number=ACCOUNT_NUMBER,
             jwt=JWT,
             url=URL,
             start_at=START_AT,
@@ -145,7 +140,6 @@ class TestGetUtilityFilters:
 
     def test_throws_exception(self) -> None:
         settings = Settings(
-            account_number=ACCOUNT_NUMBER,
             jwt=JWT,
             url=URL,
             start_at=START_AT,

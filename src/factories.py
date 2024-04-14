@@ -15,9 +15,9 @@ def get_settings(file_path: Path) -> Settings:
         return Settings(**json)
 
 
-def get_variables(settings: Settings) -> Variables:
+def get_variables(settings: Settings, account_number: str) -> Variables:
     return Variables(
-        account_number=settings.account_number,
+        account_number=account_number,
         start_at=settings.start_at,
         end_at=settings.end_at,
         first=settings.first,
