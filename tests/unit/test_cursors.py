@@ -8,6 +8,7 @@ from src.cursors import ReadingsCursor
 from src.models import PaginatedReadings, Reading, Settings
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
+    CURSOR,
     ELECTRICITY_READING_FREQUENCY,
     END_AT,
     FIRST,
@@ -44,7 +45,7 @@ class TestReadingsCursor:
         self, mock_method, readings_cursor: ReadingsCursor, expected: bool
     ) -> None:
         mock_method.return_value = PaginatedReadings(
-            readings=[], has_next_page=expected
+            readings=[], has_next_page=expected, cursor=CURSOR
         )
 
         assert expected == readings_cursor.next_page()

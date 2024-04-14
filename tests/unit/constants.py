@@ -8,6 +8,7 @@ URL = "http://localhost:8008"
 START_AT = datetime(2024, 4, 1)
 END_AT = datetime(2024, 4, 20)
 FIRST = 42
+CURSOR = "thisIsTheCursor"
 GAS_READING_FREQUENCY = ReadingFrequencyType.DAY_INTERVAL
 ELECTRICITY_READING_FREQUENCY = ReadingFrequencyType.MONTH_INTERVAL
 QUERY_STRING = """

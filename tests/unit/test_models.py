@@ -13,7 +13,7 @@ from src.models import (
     ReadingFrequencyType,
     Variables,
 )
-from tests.unit.constants import ACCOUNT_NUMBER, JWT
+from tests.unit.constants import ACCOUNT_NUMBER, CURSOR, JWT
 
 
 class TestHeaders:
@@ -57,6 +57,7 @@ class TestVariable:
                 GasFilter(reading_frequency_type=gas_filter_frequency),
                 ElectricityFilter(reading_frequency_type=electricity_filter_frequency),
             ],
+            after=CURSOR,
         )
 
         actual = variables.model_dump(by_alias=True)
@@ -74,6 +75,7 @@ class TestVariable:
                     }
                 },
             ],
+            "after": CURSOR,
         }
         assert expected == actual
 

@@ -5,6 +5,7 @@ from typing import List
 from pytest import fixture
 
 from src.models import Cost, CostType, PaginatedReadings, Reading, ReadingType
+from tests.unit.constants import CURSOR
 
 
 @fixture
@@ -157,6 +158,5 @@ def paginated_readings(
     gas_readings: List[Reading], electricity_readings: List[Reading]
 ) -> PaginatedReadings:
     return PaginatedReadings(
-        readings=gas_readings + electricity_readings,
-        has_next_page=False,
+        readings=gas_readings + electricity_readings, has_next_page=False, cursor=CURSOR
     )
