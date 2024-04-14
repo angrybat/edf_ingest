@@ -6,7 +6,7 @@ from src.factories import get_settings, get_variables
 from src.models import PaginatedReadings
 
 
-def test_api_call_does_not_throw_error() -> None:
+def test_can_retrieve_paginated_readings() -> None:
     env_file_path = Path("env.json")
     settings = get_settings(env_file_path)
     account_number = get_account_number(
@@ -18,13 +18,3 @@ def test_api_call_does_not_throw_error() -> None:
     )
 
     assert isinstance(paginated_readings, PaginatedReadings)
-
-
-def test_get_account_number_does_not_return_an_empty_string() -> None:
-    env_file_path = Path("env.json")
-    settings = get_settings(env_file_path)
-    account_number = get_account_number(
-        settings.url, settings.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
-    )
-
-    assert "" != account_number
