@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
+from pathlib import Path
 from typing import List
 
 from pydantic import (
@@ -13,7 +14,7 @@ from pydantic import (
 )
 from pydantic.alias_generators import to_camel
 
-from src.constants import DATETIME_FORMAT
+from src.constants import DATETIME_FORMAT, QUERY_FILE_PATH
 
 
 class ReadingFrequencyType(Enum):
@@ -39,6 +40,7 @@ class Settings(BaseModel):
     first: int
     gas_reading_frequency: ReadingFrequencyType | None = None
     electricity_reading_frequency: ReadingFrequencyType | None = None
+    query_file_path: Path = QUERY_FILE_PATH
 
 
 class Headers(BaseModel):
