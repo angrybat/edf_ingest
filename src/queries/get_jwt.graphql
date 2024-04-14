@@ -1,0 +1,7 @@
+mutation obtainKrakenToken($input: ObtainJSONWebTokenInput!) {
+  obtainKrakenToken(input: $input) {
+    token
+    payload
+    refreshToken
+  }
+}
