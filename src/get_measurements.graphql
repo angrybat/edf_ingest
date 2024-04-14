@@ -4,6 +4,7 @@ query getMeasurements(
   $utilityFilters: [UtilityFiltersInput!]
   $startAt: DateTime
   $endAt: DateTime
+  $after: String
 ) {
   account(accountNumber: $accountNumber) {
     properties {
@@ -12,6 +13,7 @@ query getMeasurements(
         utilityFilters: $utilityFilters
         startAt: $startAt
         endAt: $endAt
+        after: $after
       ) {
         edges {
           node {
@@ -37,6 +39,7 @@ query getMeasurements(
         }
         pageInfo {
           hasNextPage
+          endCursor
         }
       }
     }
