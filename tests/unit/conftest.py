@@ -67,6 +67,25 @@ def gas_readings() -> List[Reading]:
             ],
             type=ReadingType.GAS,
         ),
+        Reading(
+            start_at=datetime(2024, 1, 14, 0, 0, tzinfo=timezone.utc),
+            end_at=datetime(2024, 1, 15, 0, 0, tzinfo=timezone.utc),
+            unit="kwh",
+            value=Decimal("60.973307823432"),
+            costs=[
+                Cost(
+                    amount=Decimal("54.15493726904323"),
+                    currency="GBP",
+                    type=CostType.STANDING_CHARGE_COST,
+                ),
+                Cost(
+                    amount=Decimal("60.93476258953893"),
+                    currency="GBP",
+                    type=CostType.CONSUMPTION_COST,
+                ),
+            ],
+            type=ReadingType.GAS,
+        ),
     ]
 
 

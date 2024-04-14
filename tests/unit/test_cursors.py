@@ -76,3 +76,17 @@ class TestReadingsCursor:
         readings_cursor.next_page()
 
         assert electricity_readings == readings_cursor.electricity_readings
+
+    @patch("src.cursors.get_paginated_readings")
+    def test_next_page_updates_the_start_at_to_the_latest_end_at(
+        self,
+        mock_method,
+        readings_cursor: ReadingsCursor,
+        paginated_readings: PaginatedReadings,
+        gas_readings: List[Reading],
+    ) -> None:
+        mock_method.return_value = paginated_readings
+
+        readings_cursor.next_page()
+
+        assert gas_readings[-1].end_at == readings_cursor.variables.start_at
