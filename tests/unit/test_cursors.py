@@ -4,7 +4,6 @@ from unittest.mock import patch
 import pytest
 from pytest import fixture
 
-from src.constants import QUERY_FILE_PATH
 from src.cursors import ReadingsCursor
 from src.models import PaginatedReadings, Reading, Settings
 from tests.unit.constants import (
@@ -31,7 +30,7 @@ def readings_cursor() -> ReadingsCursor:
         gas_reading_frequency=GAS_READING_FREQUENCY,
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
-    return ReadingsCursor(settings, QUERY_FILE_PATH)
+    return ReadingsCursor(settings)
 
 
 class TestReadingsCursor:
