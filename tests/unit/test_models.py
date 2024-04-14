@@ -5,6 +5,7 @@ from typing import List
 from pytest import fixture
 
 from src.models import (
+    AuthorizationVariables,
     ElectricityFilter,
     GasFilter,
     Headers,
@@ -13,7 +14,7 @@ from src.models import (
     ReadingFrequencyType,
     Variables,
 )
-from tests.unit.constants import ACCOUNT_NUMBER, CURSOR, JWT
+from tests.unit.constants import ACCOUNT_NUMBER, CURSOR, EMAIL_ADDRESS, JWT, PASSWORD
 
 
 class TestHeaders:
@@ -84,6 +85,16 @@ class TestVariable:
 def readings_response() -> dict:
     with open("tests/unit/example_response.json") as file:
         return load(file)
+
+
+class TestAuthorizationVariables:
+    def test_maps_to_dict(self) -> None:
+        variables = AuthorizationVariables(email=EMAIL_ADDRESS, password=PASSWORD)
+
+        actual = variables.model_dump(by_alias=True)
+
+        expected = {"input": {"email": EMAIL_ADDRESS, "password": PASSWORD}}
+        assert expected == actual
 
 
 class TestPaginatedReadings:
