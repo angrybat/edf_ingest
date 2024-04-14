@@ -133,12 +133,11 @@ class PaginatedReadings(EdfModel):
 
     @property
     def electricity(self) -> List[Reading]:
-        return [
-            reading
-            for reading in self.readings
-            if reading.type == ReadingType.ELECTRICITY
-        ]
+        return self._filter_readings(ReadingType.ELECTRICITY)
 
     @property
     def gas(self) -> List[Reading]:
-        return [reading for reading in self.readings if reading.type == ReadingType.GAS]
+        return self._filter_readings(ReadingType.GAS)
+
+    def _filter_readings(self, reading_type: ReadingType) -> List[Reading]:
+        return [reading for reading in self.readings if reading.type == reading_type]
