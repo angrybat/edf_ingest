@@ -18,7 +18,7 @@ def get_paginated_readings(
     return PaginatedReadings(**response)
 
 
-def get_account_name(url: str, jwt: str, query_file_path: Path) -> str:
+def get_account_number(url: str, jwt: str, query_file_path: Path) -> str:
     client = get_authorized_client(jwt, url)
     query = get_query(query_file_path)
     response = client.execute(query)

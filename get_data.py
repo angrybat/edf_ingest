@@ -1,11 +1,11 @@
-from src.client import get_account_name
-from src.constants import ACCOUNT_NAME_QUERY_FILE_PATH, ENV_FILE_PATH
+from src.client import get_account_number
+from src.constants import ACCOUNT_NUMBER_QUERY_FILE_PATH, ENV_FILE_PATH
 from src.cursors import ReadingsCursor
 from src.factories import get_settings
 
 settings = get_settings(ENV_FILE_PATH)
-account_number = get_account_name(
-    settings.url, settings.jwt, ACCOUNT_NAME_QUERY_FILE_PATH
+account_number = get_account_number(
+    settings.url, settings.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
 )
 cursor = ReadingsCursor(settings, account_number)
 
