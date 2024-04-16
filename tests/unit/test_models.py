@@ -20,6 +20,7 @@ from tests.unit.constants import (
     ACCOUNT_NUMBER,
     CURSOR,
     EMAIL_ADDRESS,
+    EXPIRES_AT,
     JWT,
     PASSWORD,
     REFRESH_EXPIRES_IN,
@@ -161,7 +162,7 @@ class TestCredentials:
 
         expected = Credentials(
             jwt=JWT,
-            expires_at=datetime(2024, 4, 1, 1, tzinfo=timezone.utc),
+            expires_at=EXPIRES_AT,
             refresh_token=REFRESH_TOKEN,
             refresh_expires_in=REFRESH_EXPIRES_IN,
         )

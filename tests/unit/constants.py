@@ -10,7 +10,7 @@ ACCOUNT_NUMBER = "account_number"
 URL = "http://localhost:8008"
 START_AT = datetime(2024, 4, 1)
 END_AT = datetime(2024, 4, 20)
-EXPIRES_AT = datetime(2024, 4, 25)
+EXPIRES_AT = datetime(2024, 4, 1, 1, tzinfo=timezone.utc)
 REFRESH_EXPIRES_IN = datetime(2024, 4, 1, 1, 5, 0, tzinfo=timezone.utc)
 FIRST = 42
 CURSOR = "thisIsTheCursor"
