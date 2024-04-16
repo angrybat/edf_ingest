@@ -10,6 +10,7 @@ ACCOUNT_NUMBER = "account_number"
 URL = "http://localhost:8008"
 START_AT = datetime(2024, 4, 1)
 END_AT = datetime(2024, 4, 20)
+EXPIRES_AT = datetime(2024, 4, 25)
 FIRST = 42
 CURSOR = "thisIsTheCursor"
 GAS_READING_FREQUENCY = ReadingFrequencyType.DAY_INTERVAL

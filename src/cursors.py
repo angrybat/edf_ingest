@@ -2,21 +2,23 @@ from typing import List
 
 from src.client import get_paginated_readings
 from src.factories import get_readings_variables
-from src.models import PaginatedReadings, Reading, Settings
+from src.models import Credentials, PaginatedReadings, Reading, Settings
 
 
 class ReadingsCursor:
-    def __init__(self, settings: Settings, account_number: str) -> None:
+    def __init__(
+        self, settings: Settings, account_number: str, credentials: Credentials
+    ) -> None:
         self.variables = get_readings_variables(settings, account_number)
         self.url = settings.url
-        self.jwt = settings.jwt
+        self.credentials = credentials
         self.query_file_path = settings.get_readings_query_file_path
         self._paginated_readings: PaginatedReadings | None = None
 
     def next_page(self) -> bool:
         self._paginated_readings = get_paginated_readings(
             self.url,
-            self.jwt,
+            self.credentials.jwt,
             self.query_file_path,
             self.variables,
         )
