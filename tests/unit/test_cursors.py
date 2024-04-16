@@ -27,7 +27,17 @@ from tests.unit.constants import (
 
 
 @fixture
-def readings_cursor() -> ReadingsCursor:
+def authorization_tokens() -> AuthorizationTokens:
+    return AuthorizationTokens(
+        jwt=JWT,
+        expires_at=EXPIRES_AT,
+        refresh_token=REFRESH_TOKEN,
+        refresh_expires_in=REFRESH_EXPIRES_IN,
+    )
+
+
+@fixture
+def readings_cursor(authorization_tokens: AuthorizationTokens) -> ReadingsCursor:
     settings = Settings(
         email_address=EMAIL_ADDRESS,
         password=PASSWORD,
@@ -39,17 +49,12 @@ def readings_cursor() -> ReadingsCursor:
         gas_reading_frequency=GAS_READING_FREQUENCY,
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
-    authorization_tokens = AuthorizationTokens(
-        jwt=JWT,
-        expires_at=EXPIRES_AT,
-        refresh_token=REFRESH_TOKEN,
-        refresh_expires_in=REFRESH_EXPIRES_IN,
-    )
     return ReadingsCursor(settings, ACCOUNT_NUMBER, authorization_tokens)
 
 
 class TestReadingsCursor:
     @patch("src.cursors.get_paginated_readings")
+    @freeze_time(datetime(2024, 3, 1, tzinfo=timezone.utc))
     @pytest.mark.parametrize(
         "expected",
         [True, False],
@@ -68,6 +73,7 @@ class TestReadingsCursor:
         assert expected == readings_cursor.next_page()
 
     @patch("src.cursors.get_paginated_readings")
+    @freeze_time(datetime(2024, 3, 1, tzinfo=timezone.utc))
     def test_next_page_updates_gas_readings(
         self,
         mock_get_paginated_readings,
@@ -82,6 +88,7 @@ class TestReadingsCursor:
         assert gas_readings == readings_cursor.gas_readings
 
     @patch("src.cursors.get_paginated_readings")
+    @freeze_time(datetime(2024, 3, 1, tzinfo=timezone.utc))
     def test_next_page_updates_electricity_readings(
         self,
         mock_get_paginated_readings,
@@ -96,6 +103,7 @@ class TestReadingsCursor:
         assert electricity_readings == readings_cursor.electricity_readings
 
     @patch("src.cursors.get_paginated_readings")
+    @freeze_time(datetime(2024, 3, 1, tzinfo=timezone.utc))
     def test_next_page_updates_the_after_variable_to_the_end_cursor(
         self,
         mock_get_paginated_readings,
