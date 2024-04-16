@@ -6,6 +6,7 @@ from src.models import (
     AuthorizationTokens,
     GetReadingsVariables,
     PaginatedReadings,
+    RefreshTokenVariables,
     UsernamePasswordVariables,
 )
 
@@ -36,6 +37,16 @@ def get_authorization_tokens(
 ) -> AuthorizationTokens:
     client = get_client(url)
     variables = UsernamePasswordVariables(email=email_address, password=password)
+    query = get_query(GET_JWT_QUERY_FILE_PATH)
+    response = client.execute(
+        query, variable_values=variables.model_dump(by_alias=True)
+    )
+    return AuthorizationTokens(**response)
+
+
+def refresh_authorization_tokens(url: str, refresh_token: str) -> AuthorizationTokens:
+    client = get_client(url)
+    variables = RefreshTokenVariables(refresh_token=refresh_token)
     query = get_query(GET_JWT_QUERY_FILE_PATH)
     response = client.execute(
         query, variable_values=variables.model_dump(by_alias=True)
