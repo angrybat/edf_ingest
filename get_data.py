@@ -1,13 +1,14 @@
-from src.client import get_account_number
+from src.client import get_account_number, get_credentials
 from src.constants import ACCOUNT_NUMBER_QUERY_FILE_PATH, ENV_FILE_PATH
 from src.cursors import ReadingsCursor
 from src.factories import get_settings
 
 settings = get_settings(ENV_FILE_PATH)
+credentials = get_credentials(settings.url, settings.email_address, settings.password)
 account_number = get_account_number(
-    settings.url, settings.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
+    settings.url, credentials.jwt, ACCOUNT_NUMBER_QUERY_FILE_PATH
 )
-cursor = ReadingsCursor(settings, account_number)
+cursor = ReadingsCursor(settings, account_number, credentials)
 
 gas_readings = []
 electricity_readings = []
