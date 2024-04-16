@@ -1,6 +1,7 @@
+from datetime import datetime, timezone
 from typing import List
 
-from src.client import get_paginated_readings
+from src.client import get_paginated_readings, refresh_authorization_tokens
 from src.factories import get_readings_variables
 from src.models import AuthorizationTokens, PaginatedReadings, Reading, Settings
 
@@ -19,6 +20,10 @@ class ReadingsCursor:
         self._paginated_readings: PaginatedReadings | None = None
 
     def next_page(self) -> bool:
+        if datetime.now(tz=timezone.utc) > self.authorization_tokens.expires_at:
+            self.authorization_tokens = refresh_authorization_tokens(
+                self.url, self.authorization_tokens.refresh_expires_in
+            )
         self._paginated_readings = get_paginated_readings(
             self.url,
             self.authorization_tokens.jwt,
