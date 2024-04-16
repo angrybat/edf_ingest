@@ -137,7 +137,7 @@ class TestReadingsCursor:
 
         readings_cursor.next_page()
 
-        assert refreshed_tokens == readings_cursor.authorization_tokens
+        assert refreshed_tokens.jwt == readings_cursor.jwt
 
     @patch("src.cursors.get_authorization_tokens")
     @patch("src.cursors.refresh_authorization_tokens")
@@ -169,4 +169,4 @@ class TestReadingsCursor:
 
         readings_cursor.next_page()
 
-        assert new_authorization_tokens == readings_cursor.authorization_tokens
+        assert new_authorization_tokens.jwt == readings_cursor.jwt

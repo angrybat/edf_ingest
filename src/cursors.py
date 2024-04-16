@@ -11,6 +11,8 @@ from src.models import AuthorizationTokens, PaginatedReadings, Reading, Settings
 
 
 class ReadingsCursor:
+    _paginated_readings: PaginatedReadings | None = None
+
     def __init__(
         self,
         settings: Settings,
@@ -19,42 +21,10 @@ class ReadingsCursor:
     ) -> None:
         self.variables = get_readings_variables(settings, account_number)
         self.url = settings.url
-        self.email_address = (settings.email_address,)
-        self.password = (settings.password,)
-        self.authorization_tokens = authorization_tokens
+        self.email_address = settings.email_address
+        self.password = settings.password
         self.query_file_path = settings.get_readings_query_file_path
-        self._paginated_readings: PaginatedReadings | None = None
-
-    def next_page(self) -> bool:
-        self._refresh_authorization_tokens()
-        self._paginated_readings = get_paginated_readings(
-            self.url,
-            self.authorization_tokens.jwt,
-            self.query_file_path,
-            self.variables,
-        )
-        self.variables.after = self._paginated_readings.cursor
-        return self._paginated_readings.has_next_page
-
-    def _refresh_authorization_tokens(self):
-        if self._jwt_and_refresh_tokens_has_expired():
-            self.authorization_tokens = get_authorization_tokens(
-                self.url, self.email_address, self.password
-            )
-        if self._jwt_has_expired():
-            self.authorization_tokens = refresh_authorization_tokens(
-                self.url, self.authorization_tokens.refresh_expires_in
-            )
-
-    def _jwt_has_expired(self):
-        return datetime.now(tz=timezone.utc) > self.authorization_tokens.expires_at
-
-    def _jwt_and_refresh_tokens_has_expired(self):
-        return (
-            datetime.now(tz=timezone.utc) > self.authorization_tokens.expires_at
-            and datetime.now(tz=timezone.utc)
-            > self.authorization_tokens.refresh_expires_in
-        )
+        self._set_token_properties(authorization_tokens)
 
     @property
     def gas_readings(self) -> List[Reading]:
@@ -63,3 +33,33 @@ class ReadingsCursor:
     @property
     def electricity_readings(self) -> List[Reading]:
         return self._paginated_readings.electricity
+
+    def next_page(self) -> bool:
+        self._refresh_authorization_tokens()
+        self._paginated_readings = get_paginated_readings(
+            self.url,
+            self.jwt,
+            self.query_file_path,
+            self.variables,
+        )
+        self.variables.after = self._paginated_readings.cursor
+        return self._paginated_readings.has_next_page
+
+    def _refresh_authorization_tokens(self) -> None:
+        if authorization_tokens := self._get_authorization_tokens():
+            self._set_token_properties(authorization_tokens)
+
+    def _get_authorization_tokens(self) -> AuthorizationTokens | None:
+        if datetime.now(tz=timezone.utc) > self.jwt_expires_at:
+            if datetime.now(tz=timezone.utc) > self.refresh_token_expires_at:
+                return get_authorization_tokens(
+                    self.url, self.email_address, self.password
+                )
+            return refresh_authorization_tokens(self.url, self.refresh_token)
+        return None
+
+    def _set_token_properties(self, authorization_tokens) -> None:
+        self.jwt = authorization_tokens.jwt
+        self.jwt_expires_at = authorization_tokens.expires_at
+        self.refresh_token = authorization_tokens.refresh_token
+        self.refresh_token_expires_at = authorization_tokens.refresh_expires_in
