@@ -33,3 +33,14 @@ def test_can_retrieve_credentials() -> None:
     )
 
     assert isinstance(credentials, Credentials)
+
+
+def test_can_refresh_jwt() -> None:
+    env_file_path = Path(ENV_FILE_PATH)
+    settings = get_settings(env_file_path)
+
+    credentials = get_credentials(
+        settings.url, settings.email_address, settings.password
+    )
+
+    assert isinstance(credentials, Credentials)

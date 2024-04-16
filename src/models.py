@@ -107,7 +107,7 @@ class EmailAndPassword(BaseModel):
     password: str
 
 
-class AuthorizationVariables(EdfModel):
+class UsernamePasswordVariables(EdfModel):
     email: str = Field(..., exclude=True)
     password: str = Field(..., exclude=True)
 

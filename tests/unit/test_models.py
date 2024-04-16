@@ -5,7 +5,6 @@ from typing import List
 from pytest import fixture
 
 from src.models import (
-    AuthorizationVariables,
     Credentials,
     ElectricityFilter,
     GasFilter,
@@ -15,6 +14,7 @@ from src.models import (
     Reading,
     ReadingFrequencyType,
     RefreshTokenVariables,
+    UsernamePasswordVariables,
 )
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
@@ -97,9 +97,9 @@ def readings_response() -> dict:
         return load(file)
 
 
-class TestAuthorizationVariables:
+class TestUsernamePasswordVariables:
     def test_maps_to_dict(self) -> None:
-        variables = AuthorizationVariables(email=EMAIL_ADDRESS, password=PASSWORD)
+        variables = UsernamePasswordVariables(email=EMAIL_ADDRESS, password=PASSWORD)
 
         actual = variables.model_dump(by_alias=True)
 
