@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from src.client import (
     get_account_number,
     get_authorization_tokens,
