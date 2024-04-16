@@ -17,6 +17,7 @@ from tests.unit.constants import (
     GAS_READING_FREQUENCY,
     JWT,
     PASSWORD,
+    REFRESH_EXPIRES_IN,
     REFRESH_TOKEN,
     START_AT,
     URL,
@@ -37,7 +38,10 @@ def readings_cursor() -> ReadingsCursor:
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
     credentials = Credentials(
-        jwt=JWT, expires_at=EXPIRES_AT, refresh_token=REFRESH_TOKEN
+        jwt=JWT,
+        expires_at=EXPIRES_AT,
+        refresh_token=REFRESH_TOKEN,
+        refresh_expires_in=REFRESH_EXPIRES_IN,
     )
     return ReadingsCursor(settings, ACCOUNT_NUMBER, credentials)
 

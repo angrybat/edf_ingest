@@ -22,6 +22,7 @@ from tests.unit.constants import (
     EMAIL_ADDRESS,
     JWT,
     PASSWORD,
+    REFRESH_EXPIRES_IN,
     REFRESH_TOKEN,
     URL,
 )
@@ -152,6 +153,7 @@ class TestCredentials:
                     "origIat": 1711929600,
                 },
                 "refreshToken": REFRESH_TOKEN,
+                "refreshExpiresIn": 1711933500,
             }
         }
 
@@ -161,5 +163,6 @@ class TestCredentials:
             jwt=JWT,
             expires_at=datetime(2024, 4, 1, 1, tzinfo=timezone.utc),
             refresh_token=REFRESH_TOKEN,
+            refresh_expires_in=REFRESH_EXPIRES_IN,
         )
         assert expected == credentials

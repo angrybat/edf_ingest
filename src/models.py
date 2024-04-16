@@ -202,3 +202,6 @@ class Credentials(EdfModel):
     refresh_token: str = Field(
         ..., validation_alias=AliasPath("obtainKrakenToken", "refreshToken")
     )
+    refresh_expires_in: datetime = Field(
+        ..., validation_alias=AliasPath("obtainKrakenToken", "refreshExpiresIn")
+    )

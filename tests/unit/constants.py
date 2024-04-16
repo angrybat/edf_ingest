@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from src.models import ReadingFrequencyType
 
@@ -11,6 +11,7 @@ URL = "http://localhost:8008"
 START_AT = datetime(2024, 4, 1)
 END_AT = datetime(2024, 4, 20)
 EXPIRES_AT = datetime(2024, 4, 25)
+REFRESH_EXPIRES_IN = datetime(2024, 4, 1, 1, 5, 0, tzinfo=timezone.utc)
 FIRST = 42
 CURSOR = "thisIsTheCursor"
 GAS_READING_FREQUENCY = ReadingFrequencyType.DAY_INTERVAL

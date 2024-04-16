@@ -3,5 +3,6 @@ mutation obtainKrakenToken($input: ObtainJSONWebTokenInput!) {
     token
     payload
     refreshToken
+    refreshExpiresIn
   }
 }
