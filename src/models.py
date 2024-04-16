@@ -117,6 +117,19 @@ class AuthorizationVariables(EdfModel):
         return EmailAndPassword(email=self.email, password=self.password)
 
 
+class RefreshToken(EdfModel):
+    refresh_token: str
+
+
+class RefreshTokenVariables(EdfModel):
+    refresh_token: str = Field(..., exclude=True)
+
+    @computed_field
+    @property
+    def input(self) -> RefreshToken:
+        return RefreshToken(refresh_token=self.refresh_token)
+
+
 class CostType(Enum):
     STANDING_CHARGE_COST = "STANDING_CHARGE_COST"
     CONSUMPTION_COST = "CONSUMPTION_COST"
