@@ -56,9 +56,12 @@ class TestReadingsCursor:
         ids=["has_next_page_is_true", "has_next_page_is_false"],
     )
     def test_next_page_return_value(
-        self, mock_method, readings_cursor: ReadingsCursor, expected: bool
+        self,
+        mock_get_paginated_readings,
+        readings_cursor: ReadingsCursor,
+        expected: bool,
     ) -> None:
-        mock_method.return_value = PaginatedReadings(
+        mock_get_paginated_readings.return_value = PaginatedReadings(
             readings=[], has_next_page=expected, cursor=CURSOR
         )
 
@@ -67,12 +70,12 @@ class TestReadingsCursor:
     @patch("src.cursors.get_paginated_readings")
     def test_next_page_updates_gas_readings(
         self,
-        mock_method,
+        mock_get_paginated_readings,
         readings_cursor: ReadingsCursor,
         paginated_readings: PaginatedReadings,
         gas_readings: List[Reading],
     ) -> None:
-        mock_method.return_value = paginated_readings
+        mock_get_paginated_readings.return_value = paginated_readings
 
         readings_cursor.next_page()
 
@@ -81,12 +84,12 @@ class TestReadingsCursor:
     @patch("src.cursors.get_paginated_readings")
     def test_next_page_updates_electricity_readings(
         self,
-        mock_method,
+        mock_get_paginated_readings,
         readings_cursor: ReadingsCursor,
         paginated_readings: PaginatedReadings,
         electricity_readings: List[Reading],
     ) -> None:
-        mock_method.return_value = paginated_readings
+        mock_get_paginated_readings.return_value = paginated_readings
 
         readings_cursor.next_page()
 
@@ -95,11 +98,11 @@ class TestReadingsCursor:
     @patch("src.cursors.get_paginated_readings")
     def test_next_page_updates_the_after_variable_to_the_end_cursor(
         self,
-        mock_method,
+        mock_get_paginated_readings,
         readings_cursor: ReadingsCursor,
         paginated_readings: PaginatedReadings,
     ) -> None:
-        mock_method.return_value = paginated_readings
+        mock_get_paginated_readings.return_value = paginated_readings
 
         readings_cursor.next_page()
 
