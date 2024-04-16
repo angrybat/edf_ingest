@@ -59,7 +59,8 @@
 				"cSpell.words": [
 					"aiohttp",
 					"AIOHTTP",
-					"pydantic"
+					"pydantic",
+					"freezegun"
 				],
 				"cSpell.ignorePaths": [
 					"env.json"

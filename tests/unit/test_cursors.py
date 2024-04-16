@@ -1,7 +1,9 @@
+from datetime import datetime, timezone
 from typing import List
 from unittest.mock import patch
 
 import pytest
+from freezegun import freeze_time
 from pytest import fixture
 
 from src.cursors import ReadingsCursor
@@ -102,3 +104,26 @@ class TestReadingsCursor:
         readings_cursor.next_page()
 
         assert CURSOR == readings_cursor.variables.after
+
+    @patch("src.cursors.refresh_authorization_tokens")
+    @patch("src.cursors.get_paginated_readings")
+    @freeze_time(datetime(2024, 5, 1, tzinfo=timezone.utc))
+    def test_calls_refresh_authorization_tokens_when_jwt_has_expired(
+        self,
+        mock_get_paginated_readings,
+        mock_refresh_authorization_tokens,
+        readings_cursor: ReadingsCursor,
+        paginated_readings: PaginatedReadings,
+    ) -> None:
+        refreshed_tokens = AuthorizationTokens(
+            jwt="RefreshedJwt",
+            expires_at=datetime(2024, 5, 1, 1, tzinfo=timezone.utc),
+            refresh_token="RefreshedRefreshToken",
+            refresh_expires_in=datetime(2024, 5, 5, tzinfo=timezone.utc),
+        )
+        mock_get_paginated_readings.return_value = paginated_readings
+        mock_refresh_authorization_tokens.return_value = refreshed_tokens
+
+        readings_cursor.next_page()
+
+        assert refreshed_tokens == readings_cursor.authorization_tokens
