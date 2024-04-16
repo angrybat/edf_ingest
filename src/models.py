@@ -194,7 +194,7 @@ class PaginatedReadings(EdfModel):
         return [reading for reading in self.readings if reading.type == reading_type]
 
 
-class Credentials(EdfModel):
+class AuthorizationTokens(EdfModel):
     jwt: str = Field(..., validation_alias=AliasPath("obtainKrakenToken", "token"))
     expires_at: datetime = Field(
         ..., validation_alias=AliasPath("obtainKrakenToken", "payload", "exp")

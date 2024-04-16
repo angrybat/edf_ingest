@@ -5,7 +5,7 @@ import pytest
 from pytest import fixture
 
 from src.cursors import ReadingsCursor
-from src.models import Credentials, PaginatedReadings, Reading, Settings
+from src.models import AuthorizationTokens, PaginatedReadings, Reading, Settings
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
     CURSOR,
@@ -37,13 +37,13 @@ def readings_cursor() -> ReadingsCursor:
         gas_reading_frequency=GAS_READING_FREQUENCY,
         electricity_reading_frequency=ELECTRICITY_READING_FREQUENCY,
     )
-    credentials = Credentials(
+    authorization_tokens = AuthorizationTokens(
         jwt=JWT,
         expires_at=EXPIRES_AT,
         refresh_token=REFRESH_TOKEN,
         refresh_expires_in=REFRESH_EXPIRES_IN,
     )
-    return ReadingsCursor(settings, ACCOUNT_NUMBER, credentials)
+    return ReadingsCursor(settings, ACCOUNT_NUMBER, authorization_tokens)
 
 
 class TestReadingsCursor:

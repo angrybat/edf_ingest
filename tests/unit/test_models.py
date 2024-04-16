@@ -1,11 +1,11 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from json import load
 from typing import List
 
 from pytest import fixture
 
 from src.models import (
-    Credentials,
+    AuthorizationTokens,
     ElectricityFilter,
     GasFilter,
     GetReadingsVariables,
@@ -138,7 +138,7 @@ class TestPaginatedReadings:
         assert electricity_readings == paginated_readings.electricity
 
 
-class TestCredentials:
+class TestAuthorizationTokens:
     def test_maps_from_dict(self) -> None:
         jwt_response = {
             "obtainKrakenToken": {
@@ -158,12 +158,12 @@ class TestCredentials:
             }
         }
 
-        credentials = Credentials(**jwt_response)
+        authorization_tokens = AuthorizationTokens(**jwt_response)
 
-        expected = Credentials(
+        expected = AuthorizationTokens(
             jwt=JWT,
             expires_at=EXPIRES_AT,
             refresh_token=REFRESH_TOKEN,
             refresh_expires_in=REFRESH_EXPIRES_IN,
         )
-        assert expected == credentials
+        assert expected == authorization_tokens
