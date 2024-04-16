@@ -33,6 +33,11 @@ def get_readings_variables(
     )
 
 
+def get_client(url: str) -> Client:
+    transport = AIOHTTPTransport(url=url)
+    return Client(transport=transport, fetch_schema_from_transport=True)
+
+
 def get_authorized_client(jwt: str, url: str) -> Client:
     headers = Headers(jwt=jwt)
     transport = AIOHTTPTransport(url=url, headers=headers.model_dump(by_alias=True))
