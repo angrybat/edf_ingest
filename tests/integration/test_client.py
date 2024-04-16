@@ -4,6 +4,7 @@ from src.client import (
     get_account_number,
     get_authorization_tokens,
     get_paginated_readings,
+    refresh_authorization_tokens,
 )
 from src.constants import (
     ACCOUNT_NUMBER_QUERY_FILE_PATH,
@@ -37,3 +38,17 @@ def test_can_retrieve_authorization_tokens() -> None:
     )
 
     assert isinstance(authorization_tokens, AuthorizationTokens)
+
+
+def test_can_refresh_authorization_tokens() -> None:
+    env_file_path = Path(ENV_FILE_PATH)
+    settings = get_settings(env_file_path)
+    authorization_tokens = get_authorization_tokens(
+        settings.url, settings.email_address, settings.password
+    )
+
+    refreshed_tokens = refresh_authorization_tokens(
+        settings.url, authorization_tokens.refresh_token
+    )
+
+    assert isinstance(refreshed_tokens, AuthorizationTokens)
