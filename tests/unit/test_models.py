@@ -14,6 +14,7 @@ from src.models import (
     PaginatedReadings,
     Reading,
     ReadingFrequencyType,
+    RefreshTokenVariables,
 )
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
@@ -103,6 +104,16 @@ class TestAuthorizationVariables:
         actual = variables.model_dump(by_alias=True)
 
         expected = {"input": {"email": EMAIL_ADDRESS, "password": PASSWORD}}
+        assert expected == actual
+
+
+class TestRefreshTokenVariables:
+    def test_maps_to_dict(self) -> None:
+        variables = RefreshTokenVariables(refresh_token=REFRESH_TOKEN)
+
+        actual = variables.model_dump(by_alias=True)
+
+        expected = {"input": {"refreshToken": REFRESH_TOKEN}}
         assert expected == actual
 
 
