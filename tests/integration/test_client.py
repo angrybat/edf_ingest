@@ -16,7 +16,7 @@ from src.models import AuthorizationTokens, PaginatedReadings
 
 
 def test_can_retrieve_paginated_readings() -> None:
-    env_file_path = Path(ENV_FILE_PATH)
+    env_file_path = ENV_FILE_PATH
     settings = get_settings(env_file_path)
 
     authorization_tokens = get_authorization_tokens(
@@ -34,7 +34,7 @@ def test_can_retrieve_paginated_readings() -> None:
 
 
 def test_can_refresh_authorization_tokens() -> None:
-    env_file_path = Path(ENV_FILE_PATH)
+    env_file_path = ENV_FILE_PATH
     settings = get_settings(env_file_path)
     authorization_tokens = get_authorization_tokens(
         settings.url, settings.email_address, settings.password
