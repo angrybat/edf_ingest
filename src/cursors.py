@@ -29,11 +29,17 @@ class ReadingsCursor:
 
     @property
     def gas_readings(self) -> List[Reading]:
-        return self._paginated_readings.gas
+        return (
+            self._paginated_readings.gas if self._paginated_readings is not None else []
+        )
 
     @property
     def electricity_readings(self) -> List[Reading]:
-        return self._paginated_readings.electricity
+        return (
+            self._paginated_readings.electricity
+            if self._paginated_readings is not None
+            else []
+        )
 
     def next_page(self) -> bool:
         self._refresh_authorization_tokens()
