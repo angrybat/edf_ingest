@@ -23,7 +23,8 @@ class ReadingsCursor:
         self.url = settings.url
         self.email_address = settings.email_address
         self.password = settings.password
-        self.query_file_path = settings.get_readings_query_file_path
+        self.get_readings_query_file_path = settings.get_readings_query_file_path
+        self.get_jwt_query_file_path = settings.get_jwt_query_file_path
         self._set_token_properties(authorization_tokens)
 
     @property
@@ -39,7 +40,7 @@ class ReadingsCursor:
         self._paginated_readings = get_paginated_readings(
             self.url,
             self.jwt,
-            self.query_file_path,
+            self.get_readings_query_file_path,
             self.variables,
         )
         self.variables.after = self._paginated_readings.cursor
@@ -53,7 +54,10 @@ class ReadingsCursor:
         if datetime.now(tz=timezone.utc) > self.jwt_expires_at:
             if datetime.now(tz=timezone.utc) > self.refresh_token_expires_at:
                 return get_authorization_tokens(
-                    self.url, self.email_address, self.password
+                    self.url,
+                    self.email_address,
+                    self.password,
+                    self.get_jwt_query_file_path,
                 )
             return refresh_authorization_tokens(self.url, self.refresh_token)
         return None
