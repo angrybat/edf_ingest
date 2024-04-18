@@ -169,3 +169,13 @@ class TestReadingsCursor:
         readings_cursor.next_page()
 
         assert new_authorization_tokens.jwt == readings_cursor.jwt
+
+    def test_empty_array_returns_for_gas_readings_when_created(
+        self, readings_cursor: ReadingsCursor
+    ) -> None:
+        assert readings_cursor.gas_readings == []
+
+    def test_empty_array_returns_for_electricity_readings_when_created(
+        self, readings_cursor: ReadingsCursor
+    ) -> None:
+        assert readings_cursor.electricity_readings == []
