@@ -36,7 +36,6 @@ class ReadingFrequencyType(Enum):
 
 
 class Settings(BaseModel):
-    jwt: str
     email_address: str
     password: str
     url: str

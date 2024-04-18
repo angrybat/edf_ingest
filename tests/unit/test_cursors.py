@@ -41,7 +41,6 @@ def readings_cursor(authorization_tokens: AuthorizationTokens) -> ReadingsCursor
     settings = Settings(
         email_address=EMAIL_ADDRESS,
         password=PASSWORD,
-        jwt=JWT,
         url=URL,
         start_at=START_AT,
         end_at=END_AT,

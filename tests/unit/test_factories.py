@@ -32,7 +32,6 @@ class TestGetSettings:
         with TemporaryDirectory() as temp_dir:
             env_file_path = Path(temp_dir) / "env.json"
             settings_file_contents = {
-                "jwt": JWT,
                 "email_address": EMAIL_ADDRESS,
                 "password": PASSWORD,
                 "url": URL,
@@ -51,7 +50,6 @@ class TestGetSettings:
         expected = Settings(
             email_address=EMAIL_ADDRESS,
             password=PASSWORD,
-            jwt=JWT,
             url=URL,
             start_at=START_AT,
             end_at=END_AT,
@@ -94,7 +92,6 @@ class TestGetUtilityFilters:
         settings = Settings(
             email_address=EMAIL_ADDRESS,
             password=PASSWORD,
-            jwt=JWT,
             url=URL,
             start_at=START_AT,
             end_at=END_AT,
@@ -115,7 +112,6 @@ class TestGetUtilityFilters:
         settings = Settings(
             email_address=EMAIL_ADDRESS,
             password=PASSWORD,
-            jwt=JWT,
             url=URL,
             start_at=START_AT,
             end_at=END_AT,
@@ -134,7 +130,6 @@ class TestGetUtilityFilters:
         settings = Settings(
             email_address=EMAIL_ADDRESS,
             password=PASSWORD,
-            jwt=JWT,
             url=URL,
             start_at=START_AT,
             end_at=END_AT,
@@ -153,7 +148,6 @@ class TestGetUtilityFilters:
         settings = Settings(
             email_address=EMAIL_ADDRESS,
             password=PASSWORD,
-            jwt=JWT,
             url=URL,
             start_at=START_AT,
             end_at=END_AT,
