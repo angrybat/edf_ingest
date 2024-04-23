@@ -1,15 +1,8 @@
 from src.constants import ENV_FILE_PATH
-from src.main import get_readings_cursor
+from src.main import get_readings, get_readings_cursor
 
 cursor = get_readings_cursor(ENV_FILE_PATH)
+readings = get_readings(cursor)
 
-gas_readings = []
-electricity_readings = []
-while cursor.next_page():
-    gas_readings += cursor.gas_readings
-    electricity_readings += cursor.electricity_readings
-gas_readings += cursor.gas_readings
-electricity_readings += cursor.electricity_readings
-
-print(gas_readings)
-print(electricity_readings)
+print(readings.gas)
+print(readings.electricity)
