@@ -1,7 +1,10 @@
+from datetime import datetime, timezone
 from json import dump
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, Mock, PropertyMock, patch
+
+from freezegun import freeze_time
 
 from src.constants import (
     DATETIME_FORMAT,
@@ -10,8 +13,16 @@ from src.constants import (
     GET_READINGS_QUERY_FILE_PATH,
 )
 from src.cursors import ReadingsCursor
-from src.main import get_readings_cursor
-from src.models import AuthorizationTokens, Settings
+from src.main import get_readings, get_readings_cursor
+from src.models import (
+    AuthorizationTokens,
+    Cost,
+    CostType,
+    Reading,
+    Readings,
+    ReadingType,
+    Settings,
+)
 from tests.unit.constants import (
     ACCOUNT_NUMBER,
     ELECTRICITY_READING_FREQUENCY,
@@ -101,3 +112,160 @@ class TestGetReadingsCursor:
             expected.refresh_token_expires_at
             == readings_cursor.refresh_token_expires_at
         )
+
+
+class TestGetReadings:
+    def test_correct_readings_are_returned(self) -> None:
+        gas_readings = [
+            Reading(
+                start_at=datetime(2024, 1, 1, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 2, tzinfo=timezone.utc),
+                unit="kwh",
+                value=1,
+                costs=[
+                    Cost(amount=10, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=10, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 2, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 3, tzinfo=timezone.utc),
+                unit="kwh",
+                value=2,
+                costs=[
+                    Cost(amount=20, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=20, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 3, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 4, tzinfo=timezone.utc),
+                unit="kwh",
+                value=3,
+                costs=[
+                    Cost(amount=30, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=30, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 4, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 5, tzinfo=timezone.utc),
+                unit="kwh",
+                value=4,
+                costs=[
+                    Cost(amount=40, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=40, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 5, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 6, tzinfo=timezone.utc),
+                unit="kwh",
+                value=5,
+                costs=[
+                    Cost(amount=50, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=50, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 6, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 7, tzinfo=timezone.utc),
+                unit="kwh",
+                value=6,
+                costs=[
+                    Cost(amount=60, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=60, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.GAS,
+            ),
+        ]
+        electricity_readings = [
+            Reading(
+                start_at=datetime(2024, 1, 1, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 2, tzinfo=timezone.utc),
+                unit="kwh",
+                value=1,
+                costs=[
+                    Cost(amount=10, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=10, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 2, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 3, tzinfo=timezone.utc),
+                unit="kwh",
+                value=2,
+                costs=[
+                    Cost(amount=20, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=20, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 3, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 4, tzinfo=timezone.utc),
+                unit="kwh",
+                value=3,
+                costs=[
+                    Cost(amount=30, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=30, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 4, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 5, tzinfo=timezone.utc),
+                unit="kwh",
+                value=4,
+                costs=[
+                    Cost(amount=40, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=40, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 5, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 6, tzinfo=timezone.utc),
+                unit="kwh",
+                value=5,
+                costs=[
+                    Cost(amount=50, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=50, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+            Reading(
+                start_at=datetime(2024, 1, 6, tzinfo=timezone.utc),
+                end_at=datetime(2024, 1, 7, tzinfo=timezone.utc),
+                unit="kwh",
+                value=6,
+                costs=[
+                    Cost(amount=60, currency="GBP", type=CostType.CONSUMPTION_COST),
+                    Cost(amount=60, currency="GBP", type=CostType.STANDING_CHARGE_COST),
+                ],
+                type=ReadingType.ELECTRICITY,
+            ),
+        ]
+        mock_cursor = MagicMock()
+        type(mock_cursor).gas_readings = PropertyMock(
+            side_effect=[gas_readings[0:2], gas_readings[2:4], gas_readings[4:]]
+        )
+        type(mock_cursor).electricity_readings = PropertyMock(
+            side_effect=[
+                electricity_readings[0:2],
+                electricity_readings[2:4],
+                electricity_readings[4:],
+            ]
+        )
+        mock_cursor.next_page = Mock(side_effect=[True, True, False])
+
+        readings = get_readings(mock_cursor)
+
+        expected = Readings(gas=gas_readings, electricity=electricity_readings)
+        assert expected == readings
