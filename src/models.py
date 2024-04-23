@@ -206,3 +206,8 @@ class AuthorizationTokens(EdfModel):
     refresh_expires_in: datetime = Field(
         ..., validation_alias=AliasPath("obtainKrakenToken", "refreshExpiresIn")
     )
+
+
+class Readings(BaseModel):
+    gas: List[Reading] = []
+    electricity: List[Reading] = []
